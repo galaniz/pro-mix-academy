@@ -44,6 +44,12 @@ p {
     margin-top: 0 !important;
 }
 
+h2 {
+    &.sm {
+        @include fontRem( 36px );
+    }
+}
+
 h3 {
     .lg-h &,
     &.lg {
@@ -53,9 +59,15 @@ h3 {
 
 p {
     @include fontRem( 20px );
-    opacity: 0.65;
-    line-height: 1.75;
+    opacity: 0.6;
+    line-height: 1.8;
     margin-bottom: 30px;
+    .post-content & {
+        margin-bottom: 30px !important;
+    }
+    @include breakpointMax( 1000 ) {
+        @include fontRem( 18px );
+    }
 }
 
 *:focus {
@@ -69,6 +81,10 @@ p {
 /* Overrides */
 
 #main {
+    .single-mentor &,
+    .post-type-archive-mentor & {
+        padding-top: 0 !important;
+    }
     @include breakpointMax( 900 ) {
         padding-top: calcRem( 50px );
         padding-bottom: calcRem( 50px );

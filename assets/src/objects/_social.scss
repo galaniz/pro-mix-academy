@@ -30,3 +30,18 @@
         @extend %u-transform-scale;
     }
 }
+
+.o-social {
+    @extend %u-display-block;
+    transition: transform 300ms ease, color 200ms ease !important;
+    &::before {
+        color: inherit !important;
+        font-size: calcRem( 24px );
+    }
+    &:hover,
+    &:focus,
+    &:active {
+        @extend %u-transform-scale;
+        color: getColor( 'background-light' ) !important;
+    }
+}

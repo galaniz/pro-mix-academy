@@ -7,6 +7,9 @@
 .c-page-title-bar {
     padding-top: 175px !important;
     padding-bottom: 75px !important;
+    &.--p-sm {
+        padding-top: 140px !important;
+    }
     &.--front {
         padding-top: 230px !important;
         padding-bottom: 100px !important;
@@ -21,9 +24,12 @@
             z-index: 1;
         }
     }
-    @include breakpointMin( 1000 ) {
+    @include breakpointMin( 900 ) {
         padding-top: 275px !important;
         padding-bottom: 120px !important;
+        &.--p-sm {
+            padding-top: 200px !important;
+        }
         &.--front {
             padding-top: 300px !important;
             padding-bottom: 200px !important;

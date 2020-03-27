@@ -5,6 +5,9 @@
  */
 
 .fusion-header-wrapper {
+    position: absolute !important;
+    @extend %u-left-0;
+    @extend %u-right-0;
     @include linearGradient(
         to top,
         false,
@@ -14,6 +17,7 @@
 }
 
 .fusion-header {
+    background: transparent !important;
     & .fusion-main-menu {
         overflow: visible;
         & .sub-menu {

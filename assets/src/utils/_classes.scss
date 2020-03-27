@@ -16,6 +16,12 @@
     background-color: rgba( getColor( 'background-light' ), 0.04 );
 }
 
+/* Font weight */
+
+.u-fw-light {
+    font-weight: 400 !important;
+}
+
 /* Margin */
 
 .u-m-0 {
@@ -73,6 +79,12 @@
     }
 }
 
+.u-text-center-900 {
+    @include breakpointMax( 900 ) {
+        text-align: center;
+    }
+}
+
 /* Gradient */
 
 .u-bottom-gradient {
@@ -81,7 +93,7 @@
 
 /* Opacity */
 
-.u-opacity-70 {
+.u-op-70 {
     opacity: 0.7;
 }
 
@@ -113,6 +125,12 @@
     }
 }
 
+.u-transform-y-900 {
+    @include breakpointMin( 900 ) {
+        transform: translateY( -20% );
+    }
+}
+
 /* Underline */
 
 .u-underline {
@@ -136,6 +154,10 @@
 }
 
 /* Border */
+
+.u-b-top {
+    border-top: calcRem( 2px ) solid rgba( getColor( 'background-light' ), 0.1 );
+}
 
 .u-b-half {
     @extend %u-position-relative;

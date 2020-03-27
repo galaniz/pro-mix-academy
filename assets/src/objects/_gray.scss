@@ -15,6 +15,13 @@
         @extend %u-grayscale;
         @extend %u-opacity-50;
     }
+    &.--op-30 {
+        & .fusion-column-inner-bg-image,
+        & .fusion-imageframe img,
+        & .o-gray__item img {
+            opacity: 0.3 !important;
+        }
+    }
     & .fusion-column-inner-bg {
         & a {
             @extend %u-bottom-gradient;
