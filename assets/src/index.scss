@@ -1,0 +1,67 @@
+
+/*!
+Theme Name: Avada Child
+Theme URI: https://promixacademy.com/
+Description: Theme for Pro Mix Academy based on Avada
+Template: avada
+Author: Graciela Alaniz
+Author URI: https://gracielaalaniz.com
+Version: 1.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+*/
+
+/* Functions */
+
+@import '~Formation/utils/functions/calc-rem-em';
+@import '~Formation/utils/functions/map';
+@import '~Formation/utils/functions/get-color';
+
+/* Config */
+
+@import '~Formation/config/variables';
+@import 'config/variables';
+
+/* Mixins */
+
+@import '~Formation/utils/mixins/breakpoint';
+@import '~Formation/utils/mixins/font-rem';
+@import '~Formation/utils/mixins/gradient';
+
+/* Atomic */
+
+@import '~Formation/utils/atomic/props';
+@import '~Formation/utils/atomic/classes';
+
+/* Utility classes */
+
+@import 'utils/props';
+@import 'utils/classes';
+
+/* Base */
+
+@import 'base/base';
+
+/* Layouts */
+
+@import '~Formation/layouts/flex';
+@import '~Formation/layouts/breakout';
+@import 'layouts/layouts';
+
+/* Components */
+
+@import 'components/header';
+@import 'components/title-bar';
+@import 'components/footer';
+@import 'components/to-top';
+
+/* Objects */
+
+@import '~Formation/objects/aspect-ratio/aspect-ratio';
+@import 'objects/subtext';
+@import 'objects/button';
+@import 'objects/social';
+@import 'objects/cover';
+@import 'objects/tri';
+@import 'objects/gray';
+@import 'objects/text-overlay';

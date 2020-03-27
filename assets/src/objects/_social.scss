@@ -1,0 +1,32 @@
+
+/*
+ * Social
+ * ------
+ */
+
+.fusion-social-networks-wrapper {
+    @extend %u-text-align-center;
+    .widget .fusion-social-networks.boxed-icons & {
+        margin: -8px !important;
+    }
+}
+
+.fusion-social-networks {
+    overflow: visible;
+}
+
+.fusion-social-network-icon {
+    @extend %u-transition-transform-ease;
+    .fusion-footer & {
+        border: calcRem( 2px ) solid rgba( getColor( 'background-light' ), 0.2 ) !important;
+    }
+    .widget .fusion-social-networks.boxed-icons & {
+        margin: 8px !important;
+    }
+    &:hover,
+    &:focus,
+    &:active {
+        opacity: 1 !important;
+        @extend %u-transform-scale;
+    }
+}

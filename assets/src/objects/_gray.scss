@@ -1,0 +1,23 @@
+
+/*
+ * Gray
+ * ----
+ */
+
+.o-gray {
+    & .o-gray__item,
+    & .fusion-imageframe {
+        @extend %u-bottom-gradient;
+    }
+    & .fusion-column-inner-bg-image,
+    & .fusion-imageframe img,
+    & .o-gray__item img, {
+        @extend %u-grayscale;
+        @extend %u-opacity-50;
+    }
+    & .fusion-column-inner-bg {
+        & a {
+            @extend %u-bottom-gradient;
+        }
+    }
+}

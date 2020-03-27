@@ -1,0 +1,113 @@
+
+/*
+ * Base
+ * ----
+ */
+
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: 0.01em;
+}
+
+a {
+    .u-fade-out-links & {
+        @extend %u-transition-opacity-transform-ease;
+        &:hover,
+        &:focus,
+        &:active {
+            opacity: 0.65 !important;
+        }
+    }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    & a {
+        font-size: inherit !important;
+        color: inherit !important;
+    }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    letter-spacing: 0.01em !important;
+    margin-top: 0 !important;
+}
+
+h3 {
+    .lg-h &,
+    &.lg {
+        @include fontRem( 28px );
+    }
+}
+
+p {
+    @include fontRem( 20px );
+    opacity: 0.65;
+    line-height: 1.75;
+    margin-bottom: 30px;
+}
+
+*:focus {
+    outline: 0;
+}
+
+*.focus-ring {
+	outline: calcRem( 3px ) solid rgba( getColor( 'primary-light' ), 0.66 ) !important;
+}
+
+/* Overrides */
+
+#main {
+    @include breakpointMax( 900 ) {
+        padding-top: calcRem( 50px );
+        padding-bottom: calcRem( 50px );
+    }
+}
+
+.fusion-image-hovers .hover-type-zoomin.hover .fusion-column-inner-bg-image,
+.fusion-image-hovers .hover-type-zoomin.hover .fusion-masonry-element-container,
+.fusion-image-hovers .hover-type-zoomin.hover .tribe-events-event-image,
+.fusion-image-hovers .hover-type-zoomin.hover img,
+.fusion-image-hovers .hover-type-zoomin:hover .fusion-column-inner-bg-image,
+.fusion-image-hovers .hover-type-zoomin:hover .fusion-masonry-element-container,
+.fusion-image-hovers .hover-type-zoomin:hover .tribe-events-event-image,
+.fusion-image-hovers .hover-type-zoomin:hover img {
+    @extend %u-transform-scale;
+}
+
+.fusion-content-boxes .content-container {
+    padding-left: 0 !important;
+}
+
+.fusion-content-boxes.content-boxes-icon-on-side .heading-with-icon {
+    @include breakpointMax( 900 ) {
+        min-height: 90px;
+        display: flex;
+        align-items: center;
+    }
+}
+
+.fusion-content-boxes.content-boxes-icon-on-side .content-icon-wrapper-yes .heading-with-icon .icon span,
+.fusion-content-boxes.content-boxes-icon-with-title .content-icon-wrapper-yes .heading-with-icon .icon span {
+    @include breakpointMin( 900 ) {
+        margin-right: 35px !important;
+    }
+}
+
+.fusion-content-boxes .content-container,
+.fusion-content-boxes .heading .content-box-heading {
+    @include breakpointMin( 900 ) {
+        padding-left: 123px !important;
+    }
+}

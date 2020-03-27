@@ -1,0 +1,10 @@
+
+/*
+ * To top
+ * ------
+ */
+
+#toTop {
+    background-color: rgba( getColor( 'background-light' ), 0.1 );
+    right: $g-containerPadding !important;
+}

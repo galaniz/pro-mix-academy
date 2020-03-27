@@ -1,0 +1,56 @@
+
+/*
+ * Variables
+ * ---------
+ */
+
+/* Colors */
+
+$g-colors: 	(
+	primary: (
+		base: #131B20,
+		light: #E46E2B,
+		dark: #131B20
+	),
+	foreground: (
+		base: #131B20,
+		light: #42474A,
+		dark: #000000
+	),
+	background: (
+		base: #FFFFFF,
+		light: #FFFFFF,
+		dark: #42474A
+	)
+);
+
+/* Breakpoints */
+
+$g-breakpoints: (
+	0: 0px,
+	500: 500px,
+	600: 600px,
+	640: 640px,
+	700: 700px,
+	800: 800px,
+	900: 900px,
+	1000: 1000px
+);
+
+/* Layout padding */
+
+$g-containerPadding: 20px;
+
+/* Aspect ratio */
+
+$g-aspectRatioPadding: ( 0.65, 0 );
+
+/* Transitions */
+
+$g-transitions: (
+	def: (
+		duration: 300ms,
+		timingFunction: 'ease-in-out',
+		timingFunctionCubic: 'cubic-bezier( .07, .50, .12, 1 )'
+	)
+);

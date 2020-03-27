@@ -1,0 +1,31 @@
+
+/*
+ * Footer
+ * ------
+ */
+
+.fusion-footer {
+    & footer .fusion-row .fusion-columns {
+        @extend %u-display-flex;
+        @extend %u-align-items-center;
+    }
+    & img {
+        max-width: 260px !important;
+    }
+    & .fusion-widget-menu .menu {
+        margin: -10px -15px;
+        & li {
+            padding: 10px 15px;
+            line-height: 1.15;
+        }
+    }
+}
+
+.fusion-footer-widget-column {
+    @include breakpointMax( 900 ) {
+        &,
+        & .fusion-widget-menu {
+            text-align: center !important;
+        }
+    }
+}

@@ -1,0 +1,44 @@
+
+/*
+ * Header
+ * ------
+ */
+
+.fusion-header-wrapper {
+    @include linearGradient(
+        to top,
+        false,
+        rgba( getColor( 'foreground-base' ), 0 ) 0%,
+        rgba( getColor( 'foreground-base' ), 1 ) 100%
+    );
+}
+
+.fusion-header {
+    & .fusion-main-menu {
+        overflow: visible;
+        & .sub-menu {
+            padding-top: 10px;
+            & a {
+                padding-right: 0 !important;
+                padding-left: 0 !important;
+                transition: color 200ms ease;
+                &:hover,
+                &:focus,
+                &:active {
+                    @extend %u-color-primary-light;
+                }
+            }
+        }
+        & .menu-item-has-children a::after {
+            content: none !important;
+        }
+    }
+    & .fusion-menu {
+        @extend %u-align-items-center;
+    }
+    & .fusion-row > div {
+        @extend %u-display-flex;
+        @extend %u-align-items-center;
+        justify-content: space-between;
+    }
+}

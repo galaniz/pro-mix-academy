@@ -1,0 +1,62 @@
+
+/*
+ * Props
+ * -----
+ */
+
+/* Font */
+
+%u-font-weight-bold {
+    font-weight: 600;
+}
+
+%u-font-weight-light {
+    font-weight: 400;
+}
+
+/* Layout */
+
+%u-container-padding {
+    padding-right: $g-containerPadding !important;
+    padding-left: $g-containerPadding !important;
+}
+
+%u-align-items-center {
+    align-items: center;
+}
+
+%u-justify-center {
+    justify-content: center;
+}
+
+/* Gradient */
+
+%u-bottom-gradient {
+    &::before {
+        content: '';
+        @extend %u-position-absolute;
+        @extend %u-top-0;
+        @extend %u-left-0;
+        @extend %u-right-0;
+        @extend %u-bottom-0;
+        @include linearGradient(
+            to bottom,
+            false,
+            rgba( getColor( 'foreground-base' ), 0 ) 0%,
+            rgba( getColor( 'foreground-base' ), 1 ) 100%
+        );
+        z-index: 1;
+    }
+}
+
+/* Opacity */
+
+%u-opacity-50 {
+    opacity: 0.5 !important;
+}
+
+/* Transform */
+
+%u-transform-scale {
+    transform: scale3d( 1.066, 1.066, 1 );
+}

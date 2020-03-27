@@ -1,0 +1,45 @@
+
+/*
+ * Subtext
+ * -------
+ */
+
+.o-subtext,
+.o-subtext-sm,
+.o-subtext-lg {
+    &,
+    & * {
+        @extend %u-text-transform-uppercase;
+        @extend %u-font-weight-bold;
+        letter-spacing: 0.1em !important;
+        line-height: 1.25 !important;
+        height: auto !important;
+    }
+    &.--l {
+        &,
+        & * {
+            @extend %u-font-weight-light;
+        }
+    }
+}
+
+.o-subtext {
+    &,
+    & * {
+        @include fontRem( 15px );
+    }
+}
+
+.o-subtext-sm {
+    &,
+    & * {
+        @include fontRem( 13px );
+    }
+}
+
+.o-subtext-lg {
+    &,
+    & * {
+        line-height: 1.5 !important;
+    }
+}

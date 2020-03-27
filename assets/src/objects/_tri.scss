@@ -1,0 +1,27 @@
+
+/*
+ * Tri
+ * ---
+ */
+
+.o-tri {
+    @extend %u-background-color-primary-light;
+    @extend %u-position-absolute;
+    @extend %u-top-0;
+    @extend %u-left-0;
+    @extend %u-display-flex;
+    @extend %u-align-items-center;
+    @extend %u-justify-center;
+    z-index: 1;
+    padding: 30px;
+    clip-path: polygon( 0 0, 0% 100%, 100% 0 );
+    & > * {
+        @extend %u-text-align-center;
+        @include fontRem( 18px );
+        margin: 0 !important;
+        opacity: 1 !important;
+        transform: rotate( -45deg ) translateY( -50% );
+        padding-bottom: 12px;
+        line-height: 1.25;
+    }
+}

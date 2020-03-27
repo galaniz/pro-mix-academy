@@ -1,0 +1,80 @@
+
+/*
+ * Button
+ * ------
+ */
+
+%_buttonLarge {
+    padding: calcRem( 15px ) calcRem( 28px );
+}
+
+.o-button,
+.wp-block-file__button,
+.wp-block-button__link {
+    @extend %u-transition-transform-ease;
+	@extend %u-display-inline-block;
+	@extend %u-position-relative;
+	@extend %u-color-background-light;
+	@extend %u-overflow-hidden;
+	@extend %u-background-color-primary-light;
+	-webkit-mask-image: -webkit-radial-gradient( white, black );
+    padding: calcRem( 12px ) calcRem( 25px );
+    border-radius: calcRem( 50px );
+	&.--sm {
+		padding: calcRem( 8px ) calcRem( 18px );
+	}
+    &.--lg {
+        @extend %_buttonLarge;
+    }
+    .is-style-outline &,
+    .is-style-underline &,
+    &.--outline {
+        background-color: transparent;
+    }
+    .is-style-outline &,
+    &.--outline {
+        border: calcRem( 2px ) solid currentColor !important;
+    }
+    .is-style-underline & {
+        border-bottom: calcRem( 2px ) currentColor !important;
+        padding-left: 0;
+        padding-right: 0;
+    }
+	&:hover,
+	&:focus,
+	&:active {
+        @extend %u-transform-scale;
+	}
+}
+
+.button-large {
+    @extend %_buttonLarge;
+}
+
+.fusion-button {
+    @extend %u-position-relative;
+    @extend %u-overflow-hidden;
+    &::after {
+        content: '';
+        @extend %u-transition-transform-ease;
+        @extend %u-position-absolute;
+        @extend %u-background-color-foreground-dark;
+        @extend %u-top-0;
+        @extend %u-left-0;
+        @extend %u-width-100;
+        @extend %u-bottom-0;
+        opacity: 0.25;
+        transform: scaleX( 0 );
+    }
+    & .fusion-button-text {
+        @extend %u-position-relative;
+        z-index: 2;
+    }
+    &:hover,
+	&:focus,
+	&:active {
+        &::after {
+            transform: scaleX( 1 );
+        }
+	}
+}

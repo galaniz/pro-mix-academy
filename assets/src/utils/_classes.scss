@@ -1,0 +1,158 @@
+
+/*
+ * Classes
+ * -------
+ */
+
+/* Color */
+
+.u-color-primary-light {
+    color: getColor( 'primary-light' ) !important;
+}
+
+/* Background */
+
+.u-bg-light {
+    background-color: rgba( getColor( 'background-light' ), 0.04 );
+}
+
+/* Margin */
+
+.u-m-0 {
+    margin: 0 !important;
+}
+
+.u-m-auto {
+    margin: auto;
+}
+
+.u-p-0 {
+    & p:last-child {
+        margin: 0 !important;
+    }
+}
+
+.u-fig {
+    & figure {
+        margin: 0 !important;
+    }
+}
+
+/* Flex */
+
+.u-flex-grow-1 {
+    @extend %u-flex-grow-1;
+}
+
+/* Text */
+
+.u-text,
+.u-text-sm {
+    line-height: 1.55;
+}
+
+.u-text-sm {
+    &,
+    & p {
+        @include fontRem( 14px );
+    }
+    & p {
+        margin-bottom: 15px;
+    }
+}
+
+.u-text,
+.content-boxes .content-container {
+    &,
+    & p {
+        @include fontRem( 16px );
+    }
+    & p {
+        margin-bottom: 20px;
+        line-height: 1.75;
+    }
+}
+
+/* Gradient */
+
+.u-bottom-gradient {
+    @extend %u-bottom-gradient;
+}
+
+/* Opacity */
+
+.u-opacity-70 {
+    opacity: 0.7;
+}
+
+/* Transform */
+
+.u-transform-scale {
+    & img {
+        transition: transform 800ms;
+    }
+    &:hover,
+    &:active,
+    &:focus {
+        & img {
+            @extend %u-transform-scale;
+        }
+    }
+}
+
+.u-transform-scale-fig {
+    & figure {
+        transition: transform 800ms;
+    }
+    &:hover,
+    &:active,
+    &:focus {
+        & figure {
+            @extend %u-transform-scale;
+        }
+    }
+}
+
+/* Underline */
+
+.u-underline {
+    & > * {
+        @extend %u-position-relative;
+        padding-bottom: 8px !important;
+        &::after {
+            content: '';
+            @extend %u-background-color-primary-light;
+            @extend %u-transition-transform-ease;
+            @extend %u-position-absolute;
+            @extend %u-bottom-0;
+            @extend %u-right-0;
+            @extend %u-left-0;
+            height: calcRem( 2px );
+        }
+        .fusion-layout-column:hover &::after {
+            transform: scaleX( 0 );
+        }
+    }
+}
+
+/* Border */
+
+.u-b-half {
+    @extend %u-position-relative;
+    &::after {
+        content: '';
+        @extend %u-background-color-background-light;
+        @extend %u-position-absolute;
+        @extend %u-height-100;
+        opacity: 0.1;
+        left: 50%;
+        top: 70px;
+        height: calc( 100% - 140px );
+        width: calcRem( 2px );
+    }
+    @include breakpointMax( 900 ) {
+        &::after {
+            content: none;
+        }
+    }
+}
