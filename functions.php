@@ -228,6 +228,7 @@ function pma_mentors_shortcode( $atts ) {
     extract( $atts );
 
     $output = '';
+    $archive = true;
 
     global $wp_query;
 
@@ -238,12 +239,14 @@ function pma_mentors_shortcode( $atts ) {
         ];
 
         $q = new WP_Query( $args );
+
+        $archive = false;
     } else {
         $q = $wp_query;
     }
 
     if( $q->have_posts() ) {
-        $output = '<div class="l-flex l-pad-h-lg l-pad-v-container u-fig --xl-b --wrap">';
+        $output = '<div class="l-flex l-pad-h-' . ( $archive ? 'xl' : 'lg' ) .' l-pad-v-container u-fig --xl-b --wrap">';
 
         while( $q->have_posts() ) {
             $q->the_post();

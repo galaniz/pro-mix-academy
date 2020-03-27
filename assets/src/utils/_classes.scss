@@ -166,11 +166,14 @@
         @extend %u-background-color-background-light;
         @extend %u-position-absolute;
         @extend %u-height-100;
+        @extend %u-top-0;
         opacity: 0.1;
         left: 50%;
+        width: calcRem( 2px );
+    }
+    &.--offset-p::after {
         top: 70px;
         height: calc( 100% - 140px );
-        width: calcRem( 2px );
     }
     @include breakpointMax( 900 ) {
         &::after {

@@ -159,6 +159,24 @@ xl - 50
 	&.--xl-b {
 		margin-bottom: -50px;
 	}
+	&.--xxl,
+	&.--xxl-t {
+		margin-top: -70px;
+	}
+	&.--xxl,
+	&.--xxl-b {
+		margin-bottom: -70px;
+	}
+	@include breakpointMax( 900 ) {
+		&.--xxl,
+		&.--xxl-t {
+			margin-top: -60px;
+		}
+		&.--xxl,
+		&.--xxl-b {
+			margin-bottom: -60px;
+		}
+	}
 }
 
 /* Horizontal padding */
