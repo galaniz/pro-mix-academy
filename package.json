@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@alanizcreative/formation": "^1.2.1",
+    "@alanizcreative/formation": "^1.2.2",
     "@babel/core": "^7.8.7",
     "@babel/preset-env": "^7.8.7",
     "autoprefixer": "^9.7.4",
