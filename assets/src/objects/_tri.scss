@@ -15,7 +15,8 @@
     z-index: 1;
     padding: 30px;
     clip-path: polygon( 0 0, 0% 100%, 100% 0 );
-    & > * {
+    & > *,
+    & > p {
         @extend %u-text-align-center;
         @include fontRem( 18px );
         margin: 0 !important;
