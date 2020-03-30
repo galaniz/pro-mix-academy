@@ -45,3 +45,17 @@
         color: getColor( 'background-light' ) !important;
     }
 }
+
+.fusion-sharing-box.share-box {
+    @extend %u-display-flex;
+    @extend %u-align-items-center;
+    & h4,
+    & a {
+        margin: 0 !important;
+    }
+    & h4 {
+        @include fontRem( 16px, true );
+        font-weight: 400 !important;
+        padding-right: 10px !important;
+    }
+}

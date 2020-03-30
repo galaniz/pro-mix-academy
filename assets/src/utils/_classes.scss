@@ -7,7 +7,20 @@
 /* Color */
 
 .u-color-primary-light {
-    color: getColor( 'primary-light' ) !important;
+    &,
+    & p,
+    & a {
+        color: getColor( 'primary-light' ) !important;
+        opacity: 1 !important;
+    }
+}
+
+.u-color-background-light {
+    &,
+    & p,
+    & a {
+        color: getColor( 'background-light' ) !important;
+    }
 }
 
 /* Background */
@@ -53,13 +66,18 @@
 /* Text */
 
 .u-text,
-.u-text-sm {
-    line-height: 1.55;
+.u-text-sm,
+.u-text-md,
+.u-text-md *,
+.u-text-lg,
+.u-text-lg * {
+    line-height: 1.6;
 }
 
 .u-text-sm {
     &,
-    & p {
+    & p,
+    & li {
         @include fontRem( 14px );
     }
     & p {
@@ -70,12 +88,51 @@
 .u-text,
 .content-boxes .content-container {
     &,
-    & p {
+    & p,
+    & li {
         @include fontRem( 16px );
     }
     & p {
         margin-bottom: 20px;
-        line-height: 1.75;
+    }
+}
+
+.u-text-m {
+    &,
+    & p,
+    & li {
+        @include fontRem( 18px );
+    }
+}
+
+.u-text-md {
+    &,
+    & p,
+    & li {
+        @include fontRem( 20px );
+    }
+    @include breakpointMax( 900 ) {
+        &,
+        & p,
+        & li {
+            @include fontRem( 18px );
+        }
+    }
+}
+
+.u-text-lg {
+    &,
+    & p,
+    & li {
+        @include fontRem( 24px );
+        opacity: 1 !important;
+    }
+    @include breakpointMax( 900 ) {
+        &,
+        & p,
+        & li {
+            @include fontRem( 20px );
+        }
     }
 }
 
@@ -171,13 +228,43 @@
         left: 50%;
         width: calcRem( 2px );
     }
-    &.--offset-p::after {
+    &.--offset-p-xxl::after {
         top: 70px;
         height: calc( 100% - 140px );
+    }
+    &.--offset-p-xl::after {
+        top: 50px;
+        height: calc( 100% - 100px );
     }
     @include breakpointMax( 900 ) {
         &::after {
             content: none;
         }
     }
+}
+
+/* Misc */
+
+.u-time {
+    @include fontRem( 24px );
+    margin-right: 15px;
+}
+
+.u-list {
+    & h4 {
+        margin-bottom: 12px !important;
+    }
+    & p {
+        margin-bottom: 35px !important;
+    }
+}
+
+.u-float-none {
+    float: none !important;
+}
+
+.u-soundcloud iframe {
+    max-height: calcRem( 400px );
+    height: 50vw;
+    min-height: calcRem( 250px );
 }

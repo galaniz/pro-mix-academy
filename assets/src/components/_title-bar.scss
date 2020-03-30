@@ -5,14 +5,14 @@
  */
 
 .c-page-title-bar {
-    padding-top: 175px !important;
-    padding-bottom: 75px !important;
+    padding-top: calc( 175px + ( 275 - 175 ) * ( ( 100vw - 0px ) / ( 1400 - 0 ) ) ) !important;
+    padding-bottom: calc( 75px + ( 100 - 75 ) * ( ( 100vw - 0px ) / ( 1400 - 0 ) ) ) !important;
     &.--p-sm {
-        padding-top: 140px !important;
+        padding-top: calc( 140px + ( 200 - 140 ) * ( ( 100vw - 0px ) / ( 1400 - 0 ) ) ) !important;
     }
     &.--front {
-        padding-top: 230px !important;
-        padding-bottom: 100px !important;
+        padding-top: calc( 230px + ( 300 - 230 ) * ( ( 100vw - 0px ) / ( 1400 - 0 ) ) ) !important;
+        padding-bottom: calc( 130px + ( 200 - 130 ) * ( ( 100vw - 0px ) / ( 1400 - 0 ) ) ) !important;
     }
     &.fusion-fullwidth .fusion-row,
     & .fusion-layout-column {
@@ -24,7 +24,7 @@
             z-index: 1;
         }
     }
-    @include breakpointMin( 900 ) {
+    @include breakpointMin( 1400 ) {
         padding-top: 275px !important;
         padding-bottom: 100px !important;
         &.--p-sm {

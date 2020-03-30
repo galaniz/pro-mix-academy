@@ -1,0 +1,107 @@
+
+/*
+ * Padding for 2 columns
+ * ---------------------
+ */
+
+.l-col {
+    & .fusion-row {
+        @extend %u-display-flex;
+        flex-wrap: wrap;
+    }
+	@include breakpointMin( 901 ) {
+		& .fusion-layout-column {
+			&:first-child {
+				padding-right: 25px;
+			}
+			&:last-child {
+				padding-left: 25px;
+			}
+		}
+	}
+	@include breakpointMin( 1400 ) {
+		& .fusion-layout-column {
+			&:first-child {
+				padding-right: 50px;
+			}
+			&:last-child {
+				padding-left: 50px;
+			}
+		}
+	}
+}
+
+.l-col__media,
+.l-col__text {
+    @include breakpointMin( 901 ) {
+        &:first-child .fusion-column-wrapper,
+        &:first-child .l-col__inner {
+            margin-left: auto !important;
+        }
+    }
+}
+
+.l-col__media {
+	@extend %u-display-flex;
+    & .fusion-column-content-centered {
+        align-items: stretch !important;
+    }
+    & .fusion-column-content,
+    & .l-col__inner {
+        @extend %u-display-flex;
+        @extend %u-flex-grow-1;
+        flex-direction: column;
+    }
+	& .fusion-imageframe {
+		@extend %u-display-flex;
+        @extend %u-flex-grow-1;
+		margin-right: auto;
+	}
+	& img {
+		@extend %u-flex-grow-1;
+        @extend %u-width-100;
+		object-fit: cover;
+	}
+    &.--max-h img {
+        max-height: calcRem( 500px );
+    }
+    @include breakpointMax( 900 ) {
+        & .fusion-column-wrapper,
+        & .l-col__inner {
+            margin: 0 -20px;
+        }
+    }
+    @include breakpointMin( 901 ) {
+        &:first-child .fusion-column-content-centered,
+        &:first-child .l-col__content {
+            margin-left: -20px;
+        }
+        &:last-child .fusion-column-content-centered,
+        &:last-child .l-col__content {
+            margin-right: -20px;
+        }
+    }
+    @include breakpointMin( 1400 ) {
+        &.--contain img {
+            width: auto !important;
+            object-fit: contain;
+            object-position: right;
+        }
+        &.--contain:last-child img {
+            object-position: left;
+        }
+    }
+}
+
+.l-col__text {
+    @include breakpointMin( 901 ) {
+        & .fusion-column-wrapper,
+        & .l-col__inner {
+            max-width: 600px;
+        }
+    }
+    @include breakpointMax( 900 ) {
+        padding-top: 50px;
+        order: 1;
+    }
+}

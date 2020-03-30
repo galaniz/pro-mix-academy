@@ -45,4 +45,8 @@
         @extend %u-align-items-center;
         justify-content: space-between;
     }
+    @include breakpointMin( 1400 ) {
+        padding-right: 40px !important;
+        padding-left: 40px !important;
+    }
 }

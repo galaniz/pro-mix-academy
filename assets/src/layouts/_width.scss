@@ -1,0 +1,80 @@
+
+/*
+ * Widths
+ * ------
+ */
+
+.l-33 {
+	@extend %u-width-100;
+	@include breakpointMin( 900 ) {
+		width: 33.33333%;
+		&.--max {
+			max-width: 33.33333%;
+		}
+	}
+}
+
+.l-50 {
+	@extend %u-width-100;
+	@include breakpointMin( 900 ) {
+		width: 50%;
+		&.--max {
+			max-width: 50%;
+		}
+	}
+}
+
+.l-w-50 {
+	width: calcRem( 50px );
+}
+
+.l-w-70 {
+	width: calcRem( 70px );
+}
+
+.l-w-85 {
+	width: calcRem( 85px );
+}
+
+.l-w-150 {
+	width: calcRem( 150px );
+	@include breakpointMax( 1000 ) {
+		width: calcRem( 90px );
+	}
+}
+
+.l-w-150-meta {
+	@include breakpointMax( 1000 ) {
+		min-height: calcRem( 90px );
+		& > div {
+			margin: auto 0;
+		}
+	}
+	@include breakpointMin( 1000 ) {
+		padding-top: 15px;
+	}
+}
+
+.l-w-150-text {
+	@include breakpointMax( 1000 ) {
+		margin-left: calcRem( -120px );
+	}
+}
+
+.l-w-300 {
+	width: 33.33333%;
+	min-width: calcRem( 180px );
+	max-width: calcRem( 380px );
+	@include breakpointMax( 900 ) {
+		margin: 0 auto;
+	}
+}
+
+.l-max-600 {
+	max-width: calcRem( 600px );
+	margin: 0 auto;
+}
+
+.l-max-700 {
+	max-width: 700px;
+}

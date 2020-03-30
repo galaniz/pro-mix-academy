@@ -9,9 +9,9 @@
 
 require get_stylesheet_directory() . '/inc/enqueue.php';
 
-/* Nav customizations */
+/* Filter classes */
 
-require get_stylesheet_directory() . '/inc/nav.php';
+require get_stylesheet_directory() . '/inc/filter-classes.php';
 
 /* Admin customizations */
 

@@ -10,9 +10,6 @@
     @extend %u-justify-center;
     @extend %u-align-items-center;
     display: flex !important;
+    padding: calc( 90px + ( 180 - 90 ) * ( ( 100vw - 0px ) / ( 2560 - 0 ) ) ) 40px;
     z-index: 2;
-    padding: 26% 25px;
-    &.--narrow {
-        padding: 22% 25px;
-    }
 }

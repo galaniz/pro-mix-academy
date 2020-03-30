@@ -1,0 +1,39 @@
+
+/*
+ * Flex
+ * ----
+ */
+
+.l-flex-grow {
+    @extend %u-flex-grow-1;
+}
+
+.l-flex-row {
+	& .fusion-row {
+		display: flex !important;
+		flex-wrap: wrap;
+	}
+}
+
+.l-flex-equal {
+    &,
+    & > .fusion-column-wrapper {
+        @extend %u-display-flex;
+        @extend %u-flex-grow-1;
+        flex-direction: column;
+    }
+}
+
+.l-flex-wrap-900 {
+	@include breakpointMax( 900 ) {
+		flex-wrap: wrap;
+	}
+}
+
+.l-basis-100 {
+	flex-basis: 100%;
+}
+
+.l-align-start {
+	align-items: start;
+}

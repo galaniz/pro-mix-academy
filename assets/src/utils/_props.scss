@@ -32,7 +32,7 @@
 /* Gradient */
 
 %u-bottom-gradient {
-    &::before {
+    &::after {
         content: '';
         @extend %u-position-absolute;
         @extend %u-top-0;

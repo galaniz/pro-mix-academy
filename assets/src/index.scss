@@ -41,6 +41,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 /* Base */
 
 @import 'base/base';
+@import 'base/overrides';
 
 /* Layouts */
 
@@ -65,3 +66,4 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 @import 'objects/tri';
 @import 'objects/gray';
 @import 'objects/text-overlay';
+@import 'objects/quote';

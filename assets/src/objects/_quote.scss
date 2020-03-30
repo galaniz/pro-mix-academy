@@ -1,0 +1,30 @@
+
+/*
+ * Quote
+ * -----
+ */
+
+.o-quote {
+    @extend %u-position-relative;
+    padding-left: 55px;
+    &::before {
+        content: "“";
+        @extend %u-position-absolute;
+        @extend %u-color-primary-light;
+        @extend %u-left-0;
+        @extend %u-top-0;
+        @include fontRem( 120px );
+        transform: translateY(-20%);
+        font-family: 'Arial', sans-serif;
+        font-style: normal;
+        line-height: 1;
+        z-index: -1;
+        opacity: 0.5;
+    }
+    @include breakpointMin( 1400 ) {
+        padding-left: 70px;
+        &::before {
+            @include fontRem( 140px );
+        }
+    }
+}
