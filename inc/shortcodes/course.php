@@ -5,15 +5,120 @@
  * ------------------------------
  */
 
-/* Courses shortcode */
+ /* Helpers */
 
-function pma_courses_shortcode( $atts ) {
+ function pma_get_excerpt( $id = 0, $length = 20 ) {
+	 if( !$id )
+	 	return;
+
+	 $excerpt = get_the_excerpt( $id );
+
+	 if( !$excerpt ) {
+		 $post = get_post( $id );
+		 $content = $post->post_content;
+		 $content = apply_filters( 'the_content', $content );
+		 $content = str_replace(']]>', ']]&gt;', $content );
+		 $excerpt = wp_trim_words( $content, $length );
+	 }
+
+	 return $excerpt;
+ }
+
+ /* Cards shortcode */
+
+ function pma_courses_shortcode( $atts ) {
+ 	$atts = shortcode_atts( [
+         'posts_per_page' => 10,
+		 'load_more' => 10,
+		 'only_rows' => false
+ 	], $atts, 'courses' );
+
+     extract( $atts );
+
+     $output = '';
+	 $archive = true;
+	 $only_rows = $only_rows === 'true' ? true : false;
+
+     global $wp_query;
+
+     if( $wp_query->query_vars['post_type'] !== 'course' ) {
+         $args = [
+             'post_type' => 'course',
+             'posts_per_page' => $posts_per_page
+         ];
+
+         $q = new WP_Query( $args );
+
+         $archive = false;
+     } else {
+         $q = $wp_query;
+     }
+
+     if( $q->have_posts() ) {
+		 if( !$only_rows ) {
+			 $output .=
+			 	'<table class="o-table">' .
+					'<thead>' .
+						'<tr>' .
+							"<th><div class='u-visually-hidden'>Image</div></th>" .
+							"<th>Course</th>" .
+							"<th>Mentor(s)</th>" .
+							"<th>Price</th>" .
+							"<th><div class='u-visually-hidden'>Link</div></th>" .
+						'</tr>' .
+					'</thead>' .
+					'<tbody>';
+		 }
+
+         while( $q->have_posts() ) {
+             $q->the_post();
+
+             $id = get_the_ID();
+             $url = get_the_permalink();
+             $title = get_the_title();
+			 $excerpt = pma_get_excerpt( $id );
+			 $mentors = get_field( 'mentor', $id );
+			 $price = (int) get_field( 'price', $id );
+			 $price = '&dollar;' . $price;
+
+			 $featured_img = '';
+			 $mentors_output = '';
+
+			 $output .=
+			 	'<tr>' .
+					"<td>$featured_img</td>" .
+					"<td>" .
+						"<h4>$title</h4>" .
+						"<p class='u-text-sm o-clamp --l-2'>$excerpt</p>" .
+					"</td>" .
+					"<td>$mentors_output</td>" .
+					"<td>$price</td>" .
+					"<td><a class='o-button u-color-background-light o-subtext-sm --sm' href='$url'>" . __( 'Learn More' ) . "</a></td>" .
+				'</tr>';
+         }
+
+		 if( !$only_rows ) {
+			 $output .=
+			 		'</tbody>' .
+			 	'</table>';
+		 }
+
+         wp_reset_postdata();
+     }
+
+ 	return $output;
+ }
+ add_shortcode( 'courses', 'pma_courses_shortcode' );
+
+/* Courses cards shortcode */
+
+function pma_courses_cards_shortcode( $atts ) {
 	$atts = shortcode_atts( [
 		'gradient' => false,
 		'category_slug' => '',
         'posts_per_page' => 3,
         'mentor_id' => 0
-	], $atts, 'courses' );
+	], $atts, 'courses_cards' );
 
     extract( $atts );
 
@@ -62,7 +167,7 @@ function pma_courses_shortcode( $atts ) {
     $q = new WP_Query( $args );
 
     if( $q->have_posts() ) {
-        $output = '<div class="l-flex l-pad-h-md l-pad-v-container u-fig --xl-b --wrap">';
+        $output = '<div class="l-flex l-pad-h-m' . ( $gradient ? 'd' : '' ) . ' l-pad-v-container u-fig --xl-b --wrap">';
 
         while( $q->have_posts() ) {
             $q->the_post();
@@ -138,7 +243,7 @@ function pma_courses_shortcode( $atts ) {
 
 	return $output;
 }
-add_shortcode( 'courses', 'pma_courses_shortcode' );
+add_shortcode( 'courses_cards', 'pma_courses_cards_shortcode' );
 
 /* Course meta shortcode */
 
@@ -214,7 +319,7 @@ function pma_course_meta_shortcode( $atts ) {
 
 	// price meta
 	if( $price ) {
-		$price = '$' . $price;
+		$price = '&dollar;' . $price;
 		$buy_now = '';
 
 		if( $buy_link ) {
@@ -250,7 +355,7 @@ add_shortcode( 'course_meta', 'pma_course_meta_shortcode' );
 /* Course mentors shortcode */
 
 function pma_course_mentors_shortcode( $atts ) {
-	$output = "<div class='u-fig'>";
+	$output = "<div class='l-pad-v-container u-fig --xl-b'>";
 
 	// mentors
 	$mentors = get_field( 'mentor', get_the_ID() );
@@ -262,15 +367,7 @@ function pma_course_mentors_shortcode( $atts ) {
 			$name = get_the_title( $mentor );
 			$url = get_the_permalink( $mentor );
 			$img = get_the_post_thumbnail( $mentor, 'large' );
-			$excerpt = get_the_excerpt( $mentor );
-
-			if( !$excerpt ) {
-				$mentor_post = get_post( $mentor );
-				$content = $mentor_post->post_content;
-				$content = apply_filters( 'the_content', $content );
-				$content = str_replace(']]>', ']]&gt;', $content );
-				$excerpt = wp_trim_words( $content, 50 );
-			}
+			$excerpt = pma_get_excerpt( $mentor, 50 );
 
 			if( $img ) {
 				$img =
@@ -300,7 +397,7 @@ function pma_course_mentors_shortcode( $atts ) {
 				"</div>";
 
 			$output .=
-				"<div class='l-col l-pad-h-xl l-flex --wrap --align-center'>" .
+				"<div class='l-col l-pad-v-xl-b l-pad-h-xl l-flex --wrap --align-center'>" .
 					( !$order ? $media : $text ) .
 					( !$order ? $text : $media ) .
 				"</div>";

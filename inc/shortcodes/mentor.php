@@ -9,7 +9,8 @@
 
 function pma_mentors_shortcode( $atts ) {
 	$atts = shortcode_atts( [
-        'posts_per_page' => 10
+        'posts_per_page' => 10,
+		'load_more' => 10
 	], $atts, 'mentors' );
 
     extract( $atts );

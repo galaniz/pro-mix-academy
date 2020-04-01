@@ -51,6 +51,7 @@ h1 {
 }
 
 h2 {
+    .sm-h &,
     &.sm {
         @include fontRem( 36px );
     }

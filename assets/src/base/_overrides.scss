@@ -12,10 +12,6 @@
     .post-type-archive-mentor & {
         padding-top: 0 !important;
     }
-    html.avada-is-100-percent-template & {
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-    }
     @include breakpointMax( 900 ) {
         padding-top: calcRem( 50px );
         padding-bottom: calcRem( 50px );
@@ -24,6 +20,14 @@
         .is-front & {
             padding-top: calcRem( 70px );
         }
+    }
+}
+
+/* Content */
+
+#content {
+    .single-course & {
+        float: none !important;
     }
 }
 

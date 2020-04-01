@@ -191,6 +191,11 @@ xl - 50
     margin-left: -20px;
 }
 
+.l-pad-h-m {
+    margin-right: -25px;
+    margin-left: -25px;
+}
+
 .l-pad-h {
     margin-right: -30px;
     margin-left: -30px;
@@ -207,22 +212,23 @@ xl - 50
 }
 
 .l-pad-h-md,
+.l-pad-h-m,
 .l-pad-h {
-	@include breakpointMax( 1000 ) {
+	@include breakpointMax( 1400 ) {
 		margin-right: -15px;
 		margin-left: -15px;
 	}
 }
 
 .l-pad-h-lg {
-	@include breakpointMax( 1000 ) {
+	@include breakpointMax( 1400 ) {
 		margin-right: -20px;
 		margin-left: -20px;
 	}
 }
 
 .l-pad-h-xl {
-	@include breakpointMax( 1000 ) {
+	@include breakpointMax( 1400 ) {
 		margin-right: -25px;
 		margin-left: -25px;
 	}
@@ -241,6 +247,10 @@ xl - 50
         padding-right: 20px;
         padding-left: 20px;
     }
+	.l-pad-h-m > & {
+        padding-right: 25px;
+        padding-left: 25px;
+    }
     .l-pad-h > & {
         padding-right: 30px;
         padding-left: 30px;
@@ -253,8 +263,9 @@ xl - 50
         padding-right: 50px;
         padding-left: 50px;
     }
-    @include breakpointMax( 1000 ) {
+    @include breakpointMax( 1400 ) {
 		.l-pad-h-md > &,
+		.l-pad-h-m > &,
 		.l-pad-h > & {
             padding-left: 15px;
             padding-right: 15px;

@@ -17,6 +17,10 @@ require get_stylesheet_directory() . '/inc/filter-classes.php';
 
 require get_stylesheet_directory() . '/inc/admin.php';
 
+/* Avada hooks */
+
+require get_stylesheet_directory() . '/inc/avada.php';
+
 /* Shortcodes */
 
 require get_stylesheet_directory() . '/inc/shortcodes/course.php';

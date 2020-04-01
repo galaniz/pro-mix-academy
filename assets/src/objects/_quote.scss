@@ -8,7 +8,7 @@
     @extend %u-position-relative;
     padding-left: 55px;
     &::before {
-        content: "“";
+        content: "\201C";
         @extend %u-position-absolute;
         @extend %u-color-primary-light;
         @extend %u-left-0;

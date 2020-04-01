@@ -1,0 +1,22 @@
+
+/*
+ * CTA
+ * ---
+ */
+
+.c-cta {
+    @extend %u-background-color-primary-light;
+    @extend %u-position-fixed;
+    @extend %u-right-0;
+    @extend %u-left-0;
+    @extend %u-bottom-0;
+    z-index: 999999;
+}
+
+.c-cta__link {
+    @extend %u-background-color-primary-light;
+    padding: 15px 20px;
+    @include breakpointMax( 900 ) {
+        padding: 12px 20px;
+    }
+}
