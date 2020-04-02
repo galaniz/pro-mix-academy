@@ -24,6 +24,53 @@
 	 return $excerpt;
  }
 
+ function pma_format_mentors( $mentors = [], $classes = '', $width = 50 ) {
+ 	if( is_array( $mentors ) ) {
+ 		$get_mentor_img = count( $mentors ) === 1;
+ 		$output = '<div class="u-color-primary-light u-fade-out-links' . ( $classes ? " $classes" : '' ) . '">';
+ 		$m = [];
+
+ 		foreach( $mentors as $mentor ) {
+ 			$mentor_name = get_the_title( $mentor );
+ 			$mentor_url = get_the_permalink( $mentor );
+ 			$mentor_link = "<a class='u-color-primary-light' href='$mentor_url'>$mentor_name</a>";
+
+ 			if( $get_mentor_img ) {
+ 				$mentor_img = get_the_post_thumbnail( $mentor, 'post-thumbnail', [
+ 					'class' => 'o-aspect-ratio__media u-object-cover'
+ 				] );
+
+ 				if( $mentor_img ) {
+ 					$output .=
+ 						"<div class='l-flex l-pad-h-xs --align-center'>" .
+ 							"<div class='l-pad-h__item'>" .
+ 								"<a href='$mentor_url'>" .
+ 									"<div class='l-w-$width'>" .
+ 										"<figure class='o-aspect-ratio --circle'>$mentor_img</figure>" .
+ 									"</div>" .
+ 								"</a>" .
+ 							"</div>" .
+ 							"<div class='l-pad-h__item'>" .
+ 								$mentor_link .
+ 							"</div>" .
+ 						"</div>";
+ 				}
+ 			} else {
+ 				$m[] = $mentor_link;
+ 			}
+ 		}
+
+ 		if( !$get_mentor_img )
+ 			$output .= implode( ', ', $m );
+
+ 		$output .= '</div>';
+
+ 		return $output;
+ 	} else {
+ 		return '';
+ 	}
+ }
+
  /* Cards shortcode */
 
  function pma_courses_shortcode( $atts ) {
@@ -57,7 +104,7 @@
      if( $q->have_posts() ) {
 		 if( !$only_rows ) {
 			 $output .=
-			 	'<table class="o-table">' .
+			 	'<table class="o-table u-fig" data-collapse="false" data-courses="true">' .
 					'<thead>' .
 						'<tr>' .
 							"<th><div class='u-visually-hidden'>Image</div></th>" .
@@ -77,19 +124,37 @@
              $url = get_the_permalink();
              $title = get_the_title();
 			 $excerpt = pma_get_excerpt( $id );
+			 $gradient = (bool) get_field( 'gradient', $id );
 			 $mentors = get_field( 'mentor', $id );
 			 $price = (int) get_field( 'price', $id );
 			 $price = '&dollar;' . $price;
 
+			 /* Featured image */
+
 			 $featured_img = '';
-			 $mentors_output = '';
+
+			 $featured_img = get_the_post_thumbnail( $id, 'medium', [
+                 'class' => 'o-aspect-ratio__media ' . ( $gradient ? 'u-object-contain' : 'u-object-cover' )
+             ] );
+
+			 if( $featured_img ) {
+				 $fig_classes = 'o-aspect-ratio u-op-70 --p-65 ' . ( $gradient ? 'o-gray__item' : '' );
+				 $featured_img =
+				 	"<a class='u-width-100 u-display-block u-thumb ' href='$url'>" .
+						"<figure class='$fig_classes'>$featured_img</figure>" .
+					"</a>";
+			 }
+
+			 /* Mentors */
+
+			 $mentors_output = pma_format_mentors( $mentors );
 
 			 $output .=
 			 	'<tr>' .
-					"<td>$featured_img</td>" .
+					"<td class='u-fade-out-links'>$featured_img</td>" .
 					"<td>" .
-						"<h4>$title</h4>" .
-						"<p class='u-text-sm o-clamp --l-2'>$excerpt</p>" .
+						"<h4" . ( !$excerpt ? " class='u-m-0'" : '' ) . ">$title</h4>" .
+						( $excerpt ? "<p class='u-text-sm u-m-0 o-clamp --l-2'>$excerpt</p>" : '' ) .
 					"</td>" .
 					"<td>$mentors_output</td>" .
 					"<td>$price</td>" .
@@ -176,11 +241,11 @@ function pma_courses_cards_shortcode( $atts ) {
             $url = get_the_permalink();
 
             $featured_img = get_the_post_thumbnail( $id, 'large', [
-                'class' => 'o-aspect-ratio__media ' . ( $gradient ? 'u-object-contain' : 'u-object-cover u-opacity-30' )
+                'class' => 'o-aspect-ratio__media ' . ( $gradient ? 'u-object-contain' : 'u-object-cover' )
             ] );
 
             if( $featured_img ) {
-                $fig_classes = 'o-aspect-ratio l-max-h-400 --p-65 ' . ( $gradient ? 'o-gray__item' : 'u-op-70' );
+                $fig_classes = 'o-aspect-ratio u-op-70 l-max-h-400 --p-65 ' . ( $gradient ? 'o-gray__item' : '' );
                 $featured_img = "<a class='u-transform-scale" . ( $gradient ? '-fig' : '' ) . "' href='$url'><figure class='$fig_classes'>$featured_img</figure></a>";
             }
 
@@ -259,46 +324,7 @@ function pma_course_meta_shortcode( $atts ) {
 	$buy_link = get_field( 'buy_link', $id );
 
 	// mentor meta
-	if( is_array( $mentors ) ) {
-		$get_mentor_img = count( $mentors ) === 1;
-		$output .= '<div class="l-pad-h__item l-pad-v-md-b u-color-primary-light u-fade-out-links">';
-		$m = [];
-
-		foreach( $mentors as $mentor ) {
-			$mentor_name = get_the_title( $mentor );
-			$mentor_url = get_the_permalink( $mentor );
-			$mentor_link = "<a class='u-color-primary-light' href='$mentor_url'>$mentor_name</a>";
-
-			if( $get_mentor_img ) {
-				$mentor_img = get_the_post_thumbnail( $mentor, 'post-thumbnail', [
-					'class' => 'o-aspect-ratio__media u-object-cover'
-				] );
-
-				if( $mentor_img ) {
-					$output .=
-						"<div class='l-flex l-pad-h-xs --align-center'>" .
-							"<div class='l-pad-h__item'>" .
-								"<a href='$mentor_url'>" .
-									"<div class='l-w-50'>" .
-										"<figure class='o-aspect-ratio --circle'>$mentor_img</figure>" .
-									"</div>" .
-								"</a>" .
-							"</div>" .
-							"<div class='l-pad-h__item'>" .
-								$mentor_link .
-							"</div>" .
-						"</div>";
-				}
-			} else {
-				$m[] = $mentor_link;
-			}
-		}
-
-		if( !$get_mentor_img )
-			$output .= implode( ', ', $m );
-
-		$output .= '</div>';
-	}
+	$output .= pma_format_mentors( $mentors, 'l-pad-h__item l-pad-v-md-b' );
 
 	// duration meta
 	if( $duration ) {

@@ -17,6 +17,10 @@ import { setElements } from 'Formation/utils/utils';
 
 import focusRing from 'Formation/objects/form/focus-ring';
 
+/* Classes */
+
+import Table from 'Formation/objects/table/table';
+
 /*
  * Variables
  * ---------
@@ -28,6 +32,12 @@ let elMeta = [
 	{
 		prop: 'tri',
 		selector: '.o-tri',
+		all: true,
+		array: true
+	},
+	{
+		prop: 'tables',
+		selector: '.o-table',
 		all: true,
 		array: true
 	}
@@ -79,6 +89,23 @@ const initialize = () => {
 
         tri();
 	}
+
+	/*
+	 * Set up table for collapsing
+	 * ---------------------------
+	 */
+
+	 if( el.tables ) {
+		 el.tables.forEach( ( table ) => {
+			 if( !table.hasAttribute( 'data-collapse' ) )
+			 	return;
+
+			new Table( {
+				table: table,
+				equalWidthTo: table.parentElement
+			} );
+		 } );
+	 }
 
 }; // end initialize
 
