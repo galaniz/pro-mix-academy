@@ -1,0 +1,42 @@
+
+/*
+ * Clamp
+ * -----
+ */
+
+.o-clamp {
+	@extend %u-position-relative;
+	@extend %u-overflow-hidden;
+    &::after {
+        content: '';
+        @extend %u-text-align-right;
+        @extend %u-position-absolute;
+        @extend %u-right-0;
+        @extend %u-bottom-0;
+        width: 2.5em;
+        @include linearGradient(
+            to right,
+            false,
+            rgba( map-get( $g-colors, 'foreground-dark' ), 0 ) 0%,
+            rgba( map-get( $g-colors, 'foreground-dark' ), 1 ) 100%,
+        );
+    }
+}
+
+@supports ( -webkit-line-clamp: 1 ) {
+	.o-clamp {
+		height: auto !important;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		&::after {
+			display: none;
+		}
+		&.--l-1 {
+			-webkit-line-clamp: 1;
+		}
+        &.--l-2 {
+			-webkit-line-clamp: 2;
+		}
+	}
+}

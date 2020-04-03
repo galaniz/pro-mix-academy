@@ -7,14 +7,96 @@
 @import '~Formation/objects/table/table';
 
 .o-table {
+    & th {
+        @extend %u-text-align-left;
+        padding: 30px 40px 30px 0;
+        font-weight: normal;
+    }
     & tr {
+        @extend %u-overflow-hidden;
+        @extend %u-width-100;
         border-bottom: 2px solid rgba( getColor( 'background-light' ), 0.1 );
     }
-    &[data-collapse="true"] td {
-        padding-bottom: calcRem( 20px );
-        &:first-child,
-        &:nth-child( 2 ) {
-            display: table-cell;
+    &[data-collapse="true"] {
+        & tr {
+            padding: 30px 0;
+        }
+    }
+    &[data-collapse="false"] {
+        & td {
+            padding: 40px 40px 40px 0;
+            &:last-child {
+                padding-right: 0;
+            }
+        }
+        &[data-courses="true"] {
+            & .o-table__desc {
+                max-width: calcRem( 300px );
+                min-width: calcRem( 180px );
+            }
+        }
+    }
+    &[data-courses="true"] {
+        & td {
+            vertical-align: top;
+        }
+    }
+    &[data-courses="true"][data-collapse="true"] {
+        & td {
+            &:first-child {
+                float: left;
+            }
+            &:not( :first-child ) {
+                padding-left: 6%;
+                padding-bottom: calcRem( 5px );
+            }
+            &:nth-last-child( 2 ) {
+                padding-bottom: 0;
+            }
+        }
+        & .o-table__collapse {
+            @extend %u-display-none;
+        }
+        & .o-table__desc * {
+            padding-bottom: 0 !important;
+        }
+    }
+}
+
+.o-table__title {
+    max-height: calcRem( 60px );
+    &::after {
+        height: 30px;
+        height: calcRem( 30px );
+    }
+    @include breakpointMax( 1000 ) {
+        @include fontRem( 18px, true );
+        max-height: calcRem( 27px );
+        &::after {
+            height: 27px;
+            height: calcRem( 27px );
+        }
+    }
+}
+
+.o-table__text {
+    max-height: calcRem( 50px );
+    &::after {
+        height: 50px;
+        height: calcRem( 50px );
+    }
+}
+
+.o-table__meta {
+    .o-table[data-collapse="true"] & {
+        @include fontRem( 14px, true );
+    }
+}
+
+@supports ( -webkit-line-clamp: 1 ) {
+    .o-table__title {
+        @include breakpointMax( 1000 ) {
+            -webkit-line-clamp: 1 !important;
         }
     }
 }

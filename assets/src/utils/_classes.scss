@@ -66,7 +66,10 @@
 /* Text */
 
 .u-text,
-.u-text-sm,
+.u-text-sm {
+    line-height: 1.8;
+}
+
 .u-text-md,
 .u-text-md *,
 .u-text-lg,
@@ -272,5 +275,10 @@
 .u-thumb {
     width: 20vw;
     max-width: calcRem( 200px );
-    min-width: calcRem( 90px );
+    min-width: calcRem( 80px );
+    min-height: calcRem( 85px );
+}
+
+.u-nowrap {
+    white-space: nowrap;
 }

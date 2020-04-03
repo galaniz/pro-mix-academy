@@ -24,11 +24,14 @@
 	 return $excerpt;
  }
 
- function pma_format_mentors( $mentors = [], $classes = '', $width = 50 ) {
+ function pma_format_mentors( $mentors = [], $classes = '', $img_item_class = '', $width = 50 ) {
  	if( is_array( $mentors ) ) {
  		$get_mentor_img = count( $mentors ) === 1;
  		$output = '<div class="u-color-primary-light u-fade-out-links' . ( $classes ? " $classes" : '' ) . '">';
  		$m = [];
+
+		if( $img_item_class )
+			$img_item_class = " $img_item_class";
 
  		foreach( $mentors as $mentor ) {
  			$mentor_name = get_the_title( $mentor );
@@ -43,7 +46,7 @@
  				if( $mentor_img ) {
  					$output .=
  						"<div class='l-flex l-pad-h-xs --align-center'>" .
- 							"<div class='l-pad-h__item'>" .
+ 							"<div class='l-pad-h__item$img_item_class'>" .
  								"<a href='$mentor_url'>" .
  									"<div class='l-w-$width'>" .
  										"<figure class='o-aspect-ratio --circle'>$mentor_img</figure>" .
@@ -111,6 +114,7 @@
 							"<th>Course</th>" .
 							"<th>Mentor(s)</th>" .
 							"<th>Price</th>" .
+							"<th>Rating</th>" .
 							"<th><div class='u-visually-hidden'>Link</div></th>" .
 						'</tr>' .
 					'</thead>' .
@@ -138,27 +142,36 @@
              ] );
 
 			 if( $featured_img ) {
-				 $fig_classes = 'o-aspect-ratio u-op-70 --p-65 ' . ( $gradient ? 'o-gray__item' : '' );
+				 $fig_classes = 'o-aspect-ratio u-height-100 u-op-70 --p-65' . ( $gradient ? ' o-gray__item' : '' );
 				 $featured_img =
-				 	"<a class='u-width-100 u-display-block u-thumb ' href='$url'>" .
+				 	"<a class='u-width-100 u-display-block u-thumb' href='$url'>" .
 						"<figure class='$fig_classes'>$featured_img</figure>" .
 					"</a>";
 			 }
 
 			 /* Mentors */
 
-			 $mentors_output = pma_format_mentors( $mentors );
+			 $mentors_output = pma_format_mentors( $mentors, '', 'o-table__collapse' );
 
 			 $output .=
 			 	'<tr>' .
 					"<td class='u-fade-out-links'>$featured_img</td>" .
-					"<td>" .
-						"<h4" . ( !$excerpt ? " class='u-m-0'" : '' ) . ">$title</h4>" .
-						( $excerpt ? "<p class='u-text-sm u-m-0 o-clamp --l-2'>$excerpt</p>" : '' ) .
+					"<td class='u-fade-out-links u-p-0'>" .
+						"<div class='o-table__desc'>" .
+							( $excerpt ? "<div class='l-pad-v-sm-b'>" : '' ) .
+								"<h4 class='o-table__title u-m-0 o-clamp --l-2'>" .
+									"<a class='u-color-background-light' href='$url'>$title</a>" .
+								"</h4>" .
+							( $excerpt ? "</div>" : '' ) .
+							( $excerpt ? "<p class='o-table__text u-text-sm o-table__collapse o-clamp --l-2'>$excerpt</p>" : '' ) .
+						"</div>" .
 					"</td>" .
-					"<td>$mentors_output</td>" .
-					"<td>$price</td>" .
-					"<td><a class='o-button u-color-background-light o-subtext-sm --sm' href='$url'>" . __( 'Learn More' ) . "</a></td>" .
+					"<td class='o-table__meta u-text'>$mentors_output</td>" .
+					"<td class='u-text'><div>$price</div></td>" .
+					"<td class='u-text'><div>Rating</div></td>" .
+					"<td class='o-table__collapse u-text-align-right'>" .
+						"<a class='o-button u-color-background-light u-nowrap o-subtext-sm --sm' href='$url'>" . __( 'Learn More' ) . "</a>" .
+					"</td>" .
 				'</tr>';
          }
 
