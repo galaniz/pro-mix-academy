@@ -9,7 +9,9 @@
 #main {
     .single-course &,
     .single-mentor &,
-    .post-type-archive-mentor & {
+    .post-type-archive-course &,
+    .post-type-archive-mentor &,
+    .archive & {
         padding-top: 0 !important;
     }
     @include breakpointMax( 900 ) {

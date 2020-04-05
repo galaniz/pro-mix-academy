@@ -1,0 +1,47 @@
+
+/*
+ * Loader
+ * ------
+ */
+
+@import '~Formation/objects/load/loader';
+
+.o-loader__icon {
+    @extend %u-position-absolute;
+    @extend %u-position-vertical-center;
+    @extend %u-right-0;
+    @extend %u-left-0;
+    @extend %u-margin-auto;
+    width: calcRem( 80px );
+    height: calcRem( 80px );
+    &.--sm {
+        width: calcRem( 40px );
+        height: calcRem( 40px );
+    }
+    &::before,
+    &::after {
+        content: '';
+        @extend %u-position-absolute;
+        @extend %u-right-0;
+        @extend %u-left-0;
+        @extend %u-bottom-0;
+        @extend %u-top-0;
+        @extend %u-border-radius-100;
+        border: calcRem( 2.5px ) solid getColor( 'background-light' );
+        animation: ripple 1500ms cubic-bezier( 0, 0.2, 0.8, 1 ) infinite;
+    }
+    &::before {
+        animation-delay: 750ms;
+    }
+
+    @keyframes ripple {
+        0% {
+            transform: scale( 0 );
+            opacity: 1;
+        }
+        100% {
+            transform: scale( 1 );
+            opacity: 0;
+        }
+    }
+}

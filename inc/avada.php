@@ -39,3 +39,10 @@ add_action( 'avada_after_content', function() {
             "</a>" .
         "</div>";
 } );
+
+/* Add course taxonomy */
+
+add_filter( 'fusion_tax_meta_allowed_screens', function( $taxonomies ) {
+    $taxonomies[] = 'course_category';
+    return $taxonomies;
+} );

@@ -1,0 +1,73 @@
+
+/*
+ * Search
+ * ------
+ */
+
+.c-search {
+    @extend %u-display-none;
+    min-width: calcRem( 200px );
+    &[data-open="true"] {
+        @extend %u-display-block;
+    }
+}
+
+.c-search-trigger,
+.c-search__input,
+.c-search__submit {
+    border: 0;
+}
+
+.c-search-trigger,
+.c-search__input {
+    background-color: rgba( getColor( 'background-light' ), 0.08 );
+}
+
+.c-search-trigger,
+.c-search__submit {
+    & .fas {
+        @include fontRem( 20px );
+    }
+}
+
+.c-search-trigger {
+    @extend %u-border-radius-100;
+    width: calcRem( 50px );
+    height: calcRem( 50px );
+    & .fa-times {
+        @extend %u-display-none;
+    }
+    &[aria-expanded="true"] {
+        & .fa-search {
+            @extend %u-display-none;
+        }
+        & .fa-times {
+            @extend %u-display-block;
+        }
+    }
+}
+
+.c-search__input,
+.c-search-trigger {
+    border: calcRem( 2px ) solid transparent;
+    transition: border-color 200ms ease;
+    &:focus {
+        border-color: rgba( getColor( 'background-light' ), 0.3 );
+    }
+}
+
+.c-search__input {
+    @extend %u-width-100;
+    @include fontRem( 18px );
+    border-radius: calcRem( 50px ) !important;
+    padding: calcRem( 9.5px ) 0 calcRem( 9.5px ) calcRem( 20px );
+}
+
+.c-search__submit {
+    @extend %u-position-absolute;
+    @extend %u-right-0;
+    @extend %u-bottom-0;
+    @extend %u-top-0;
+    width: calcRem( 60px );
+    background: transparent;
+}

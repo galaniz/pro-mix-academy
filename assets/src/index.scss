@@ -16,6 +16,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 @import '~Formation/utils/functions/calc-rem-em';
 @import '~Formation/utils/functions/map';
 @import '~Formation/utils/functions/get-color';
+@import '~Formation/utils/functions/strip-unit';
 
 /* Config */
 
@@ -26,7 +27,9 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 @import '~Formation/utils/mixins/breakpoint';
 @import '~Formation/utils/mixins/font-rem';
+@import '~Formation/utils/mixins/fluid-size';
 @import '~Formation/utils/mixins/gradient';
+@import '~Formation/utils/mixins/grayscale';
 
 /* Atomic */
 
@@ -56,6 +59,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 @import 'components/footer';
 @import 'components/to-top';
 @import 'components/cta';
+@import 'components/search';
 
 /* Objects */
 
@@ -68,5 +72,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 @import 'objects/gray';
 @import 'objects/text-overlay';
 @import 'objects/quote';
+@import 'objects/stars';
 @import 'objects/clamp';
 @import 'objects/table';
+@import 'objects/loader';

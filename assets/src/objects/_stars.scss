@@ -1,0 +1,22 @@
+
+/*
+ * Stars
+ * -----
+ */
+
+.o-stars {
+    @extend %u-position-relative;
+    @extend %u-display-inline-block;
+    letter-spacing: 0.45em;
+}
+
+.o-stars__bg {
+    opacity: 0.3;
+}
+
+.o-stars__fg {
+    @extend %u-overflow-hidden;
+    @extend %u-position-absolute;
+    @extend %u-top-0;
+    @extend %u-left-0;
+}

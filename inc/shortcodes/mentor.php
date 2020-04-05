@@ -10,21 +10,29 @@
 function pma_mentors_shortcode( $atts ) {
 	$atts = shortcode_atts( [
         'posts_per_page' => 10,
-		'load_more' => 10
+		'load_more' => 10,
+		'only_rows' => false,
+		'query_args' => []
 	], $atts, 'mentors' );
 
     extract( $atts );
 
     $output = '';
     $archive = true;
+	$only_rows = $only_rows === 'true' ? true : false;
 
     global $wp_query;
 
-    if( $wp_query->query_vars['post_type'] !== 'mentor' ) {
+    if( !pma_check_wp_query_vars( $wp_query, 'post_type', 'mentor' ) ) {
         $args = [
             'post_type' => 'mentor',
             'posts_per_page' => $posts_per_page
         ];
+
+		if( is_array( $query_args ) && count( $query_args ) > 0 ) {
+			// merge query_args with args
+			$args = array_replace_recursive( $args, $query_args );
+		}
 
         $q = new WP_Query( $args );
 

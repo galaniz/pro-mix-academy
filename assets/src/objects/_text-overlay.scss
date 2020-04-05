@@ -9,7 +9,7 @@
     @extend %u-flex-grow-1;
     @extend %u-justify-center;
     @extend %u-align-items-center;
+    @include fluidSize( padding, 0px, 2560px, 90px, 180px, false, 40px );
     display: flex !important;
-    padding: calc( 90px + ( 180 - 90 ) * ( ( 100vw - 0px ) / ( 2560 - 0 ) ) ) 40px;
     z-index: 2;
 }

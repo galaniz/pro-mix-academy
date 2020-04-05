@@ -20,6 +20,7 @@
 	-webkit-mask-image: -webkit-radial-gradient( white, black );
     padding: calcRem( 12px ) calcRem( 25px );
     border-radius: calcRem( 50px );
+    border: 0;
 	&.--sm {
 		padding: calcRem( 8px ) calcRem( 18px );
 	}
@@ -40,10 +41,22 @@
         padding-left: 0;
         padding-right: 0;
     }
+    .o-button-radio & {
+        @extend %u-display-block;
+    }
+    .o-button-radio input[type="radio"] ~ & {
+        transition: background-color 200ms ease, border-color 200ms ease;
+    }
+    .o-button-radio input[type="radio"]:checked ~ & {
+        background-color: getColor( 'primary-light' ) !important;
+        border-color: getColor( 'primary-light' ) !important;
+    }
 	&:hover,
 	&:focus,
 	&:active {
-        @extend %u-transform-scale;
+        &:not( .--radio ) {
+            @extend %u-transform-scale;
+        }
 	}
 }
 

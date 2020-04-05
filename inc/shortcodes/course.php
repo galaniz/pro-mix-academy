@@ -74,37 +74,63 @@
  	}
  }
 
- /* Cards shortcode */
+
+ /* Courses table shortcode */
 
  function pma_courses_shortcode( $atts ) {
  	$atts = shortcode_atts( [
          'posts_per_page' => 10,
 		 'load_more' => 10,
-		 'only_rows' => false
+		 'only_rows' => false,
+         'show_rating' => false,
+         'query_args' => [],
+         'return_array' => false
  	], $atts, 'courses' );
 
      extract( $atts );
 
      $output = '';
+     $total = 0;
+     $row_count = 0;
 	 $archive = true;
+
 	 $only_rows = $only_rows === 'true' ? true : false;
+     $show_rating = $show_rating === 'true' ? true : false;
+     $return_array = $return_array === 'true' ? true : false;
 
      global $wp_query;
 
-     if( $wp_query->query_vars['post_type'] !== 'course' ) {
-         $args = [
-             'post_type' => 'course',
-             'posts_per_page' => $posts_per_page
-         ];
+     if( !pma_check_wp_query_vars( $wp_query, 'post_type', 'course' ) && !pma_check_wp_query_vars( $wp_query, 'taxonomy', 'course_category' ) ) {
+        $args = [
+            'post_type' => 'course',
+            'posts_per_page' => $posts_per_page
+        ];
 
-         $q = new WP_Query( $args );
+        if( is_array( $query_args ) && count( $query_args ) > 0 ) {
+            // merge query_args with args
+            $args = array_replace_recursive( $args, $query_args );
+        }
 
-         $archive = false;
-     } else {
-         $q = $wp_query;
-     }
+        if( isset( $args['s'] ) && function_exists( 'relevanssi_do_query' ) ) {
+            $q = new WP_Query();
+            $q->parse_query( $args );
+            $blah = relevanssi_do_query( $q );
+
+            error_log( print_r( $args, true ) );
+            error_log( print_r( $blah, true ) );
+        } else {
+            $q = new WP_Query( $args );
+        }
+
+        $archive = false;
+    } else {
+        $q = $wp_query;
+    }
 
      if( $q->have_posts() ) {
+         $total = $q->found_posts;
+         $row_count = $q->post_count;
+
 		 if( !$only_rows ) {
 			 $output .=
 			 	'<table class="o-table u-fig" data-collapse="false" data-courses="true">' .
@@ -114,11 +140,11 @@
 							"<th>Course</th>" .
 							"<th>Mentor(s)</th>" .
 							"<th>Price</th>" .
-							"<th>Rating</th>" .
+							( $show_rating ? "<th>Rating</th>" : "" ) .
 							"<th><div class='u-visually-hidden'>Link</div></th>" .
 						'</tr>' .
 					'</thead>' .
-					'<tbody>';
+					'<tbody class="js-insert">';
 		 }
 
          while( $q->have_posts() ) {
@@ -130,6 +156,7 @@
 			 $excerpt = pma_get_excerpt( $id );
 			 $gradient = (bool) get_field( 'gradient', $id );
 			 $mentors = get_field( 'mentor', $id );
+             $rating = (int) get_field( 'rating', $id );
 			 $price = (int) get_field( 'price', $id );
 			 $price = '&dollar;' . $price;
 
@@ -144,7 +171,7 @@
 			 if( $featured_img ) {
 				 $fig_classes = 'o-aspect-ratio u-height-100 u-op-70 --p-65' . ( $gradient ? ' o-gray__item' : '' );
 				 $featured_img =
-				 	"<a class='u-width-100 u-display-block u-thumb' href='$url'>" .
+				 	"<a class='u-width-100 u-display-block o-table__thumb' href='$url'>" .
 						"<figure class='$fig_classes'>$featured_img</figure>" .
 					"</a>";
 			 }
@@ -153,10 +180,27 @@
 
 			 $mentors_output = pma_format_mentors( $mentors, '', 'o-table__collapse' );
 
+             /* Rating output */
+
+             $rating_output = '';
+
+             if( $show_rating ) {
+                 $stars = "&starf;&starf;&starf;&starf;&starf;";
+                 $percent = ( $rating / 5 ) * 100;
+
+                 $rating_output =
+                    "<td class='o-table__stars u-text-sm'>" .
+                        "<div class='o-stars'>" .
+                            "<div class='o-stars__bg'>$stars</div>" .
+                            "<div class='o-stars__fg u-color-primary-light' style='width:$percent%'>$stars</div>" .
+                        "</div>" .
+                    "</td>";
+             }
+
 			 $output .=
 			 	'<tr>' .
 					"<td class='u-fade-out-links'>$featured_img</td>" .
-					"<td class='u-fade-out-links u-p-0'>" .
+					"<td class='o-table__pl o-table__pb u-fade-out-links u-p-0'>" .
 						"<div class='o-table__desc'>" .
 							( $excerpt ? "<div class='l-pad-v-sm-b'>" : '' ) .
 								"<h4 class='o-table__title u-m-0 o-clamp --l-2'>" .
@@ -166,25 +210,74 @@
 							( $excerpt ? "<p class='o-table__text u-text-sm o-table__collapse o-clamp --l-2'>$excerpt</p>" : '' ) .
 						"</div>" .
 					"</td>" .
-					"<td class='o-table__meta u-text'>$mentors_output</td>" .
-					"<td class='u-text'><div>$price</div></td>" .
-					"<td class='u-text'><div>Rating</div></td>" .
+					"<td class='o-table__pl o-table__pb o-table__meta u-text'>$mentors_output</td>" .
+					"<td class='o-table__pl u-text'><div>$price</div></td>" .
+                    $rating_output .
 					"<td class='o-table__collapse u-text-align-right'>" .
 						"<a class='o-button u-color-background-light u-nowrap o-subtext-sm --sm' href='$url'>" . __( 'Learn More' ) . "</a>" .
 					"</td>" .
 				'</tr>';
          }
 
-		 if( !$only_rows ) {
-			 $output .=
-			 		'</tbody>' .
-			 	'</table>';
-		 }
+        if( !$only_rows ) {
+            $output .=
+                    '</tbody>' .
+                '</table>';
+
+            $next_posts_link = pma_get_next_posts_link();
+
+            $tag = 'button';
+            $hide_load_more = false;
+            $href = '';
+
+            if( $total <= 1 ) {
+                $hide_load_more = true;
+            } else {
+                if( !$next_posts_link )
+                    $hide_load_more = true;
+            }
+
+            if( $hide_load_more )
+                $hide_load_more = ' style="display:none;"';
+
+            if( $next_posts_link ) {
+                $tag = 'a';
+                $href = " href='$next_posts_link'";
+            } else {
+                $href = " type='button'";
+            }
+
+            $ppp = 3;
+            $ajax_ppp = 3;
+
+            $output .=
+                '<div class="js-no-results u-p-0" style="display:none;">' .
+                    '<p>Sorry looks like nothing was found.</p>' .
+                '</div>' .
+                "<div class='l-pad-v-xl-t u-text-align-center u-b-top u-position-relative'$hide_load_more>" .
+                    "<$tag class='o-button js-load-more u-color-background-light'$href data-type='course'" . ( $ajax_ppp ? " data-ajax-posts-per-page='$ajax_ppp'" : '' ) . " data-posts-per-page='$ppp' data-total='$total' data-insert-selector='.js-insert'>" .
+                        "<div class='o-subtext u-height-100 l-flex --align-center'>" .
+                            "Load More" .
+                        "</div>" .
+                        "<div class='o-loader --hide'>" .
+                            "<div class='o-loader__icon --sm'></div>" .
+                        "</div>" .
+                    "</$tag>" .
+                "</div>";
+        }
 
          wp_reset_postdata();
      }
 
- 	return $output;
+     if( $return_array ) {
+         return [
+            'row_count' => $row_count,
+            'output' => $output,
+            'total' => $total
+        ];
+     } else {
+         return $output;
+     }
  }
  add_shortcode( 'courses', 'pma_courses_shortcode' );
 
@@ -335,6 +428,7 @@ function pma_course_meta_shortcode( $atts ) {
 	$duration = (int) get_field( 'duration', $id );
 	$price = (int) get_field( 'price', $id );
 	$buy_link = get_field( 'buy_link', $id );
+    $rating = (int) get_field( 'rating', $id );
 
 	// mentor meta
 	$output .= pma_format_mentors( $mentors, 'l-pad-h__item l-pad-v-md-b' );
@@ -450,3 +544,114 @@ function pma_course_mentors_shortcode( $atts ) {
 	return $output;
 }
 add_shortcode( 'course_mentors', 'pma_course_mentors_shortcode' );
+
+/* Courses filters */
+
+function pma_courses_filters_shortcode( $atts ) {
+    $output = '';
+    $load_posts_query = [];
+
+    $tax = 'course_category';
+
+    $cat = get_terms( [
+        'taxonomy' => $tax,
+        'hide_empty' => true
+    ] );
+
+    if( $cat ) {
+        $any_checked = false;
+
+        $cat = array_map( function( $c ) use( &$any_checked, $tax ) {
+            $checked = is_tax( $tax, $c->term_id );
+
+            if( $checked )
+                $any_checked = true;
+
+            return [
+                'checked' => $checked,
+                'value' => $c->term_id,
+                'label' => $c->name
+            ];
+        }, $cat );
+
+        array_unshift( $cat, [
+            'checked' => !$any_checked ? true : false,
+            'value' => 'null',
+            'label' => 'All'
+        ] );
+
+        foreach( $cat as $c ) {
+            $id = 'pma_course_cat_' . uniqid();
+            $label = $c['label'];
+            $value = $c['value'];
+            $checked = $c['checked'] ? ' checked' : '';
+
+            $output .=
+                "<div class='o-button-radio l-pad-h__item l-pad-v-md-b'>" .
+                    "<label>" .
+                        "<input class='u-hide-input js-load-more-filter' type='radio' id='$id' name='pma_course_cat' value='$value'$checked>" .
+                        "<div class='o-subtext o-button --outline --sm --radio'>$label</div>" .
+                    "</label>" .
+                "</div>";
+        }
+
+        $load_posts_query['pma_course_cat'] = [
+            'tax_query' => [
+                [
+                    'taxonomy' => $tax,
+                    'terms' => '%value:int'
+                ]
+            ]
+        ];
+    }
+
+    $search_id = uniqid( 'pma_search_' );
+    $load_posts_query[$search_id] = [
+        's' => '%value'
+    ];
+
+    $output .=
+        "<div class='l-pad-h__item l-pad-v-md-b'>" .
+            "<button class='c-search-trigger u-color-background-light l-flex --align-center --justify-center' type='button' aria-expanded='false' aria-controls='js-search'>" .
+                "<div>" .
+                    "<div class='u-visually-hidden'>Toggle search input</div>" .
+                    "<i class='fas fa-search'></i>" .
+                    "<i class='fas fa-times'></i>" .
+                "</div>" .
+            "</button>" .
+        "</div>" .
+        "<div class='c-search u-flex-grow-1 l-pad-h__item l-pad-v-md-b' id='js-search' data-open='false'>" .
+            "<div class='u-position-relative'>" .
+                "<label for='$search_id'>" .
+                    "<span class='u-visually-hidden'>" . __( 'Search for:' ) . "</span>" .
+                "</label>" .
+                "<input class='c-search__input u-color-background-light js-load-more-filter' id='$search_id' type='search' name='pma_course_search' placeholder='Search' data-submit-selector='.c-search__submit'>" .
+                "<button class='c-search__submit u-color-background-light' type='button'>" .
+                    "<div class='u-visually-hidden'>Submit search query</div>" .
+                    "<i class='fas fa-search'></i>" .
+                "</button>" .
+            "</div>" .
+        "</div>";
+
+    $output =
+        "<div class='u-position-relative'>" .
+            "<form class='js-load-more-filters l-pad-v-container --b'>" .
+                "<div class='l-pad-v-b'>" .
+                    "<div class='l-pad-h-xs l-pad-v-container --md-b l-flex --align-center --wrap'>" .
+                        $output .
+                        '<div class="l-pad-h__item l-pad-v-md-b js-no-results" style="display:none;">' .
+                            '<button class="js-no-results__button o-button o-subtext" type="button">Reset</button>' .
+                        '</div>' .
+                    "</div>" .
+                "</div>" .
+            "</form>" .
+            "<div class='js-load-more-filters-loader o-loader --hide'>" .
+                "<div class='o-loader__icon'></div>" .
+            "</div>" .
+        "</div>";
+
+    pma_additional_script_data( 'pma_load_posts_query', $load_posts_query );
+
+    return $output;
+}
+add_shortcode( 'courses_filters', 'pma_courses_filters_shortcode' );

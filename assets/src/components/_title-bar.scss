@@ -5,14 +5,14 @@
  */
 
 .c-page-title-bar {
-    padding-top: calc( 175px + ( 275 - 175 ) * ( ( 100vw - 0px ) / ( 1400 - 0 ) ) ) !important;
-    padding-bottom: calc( 75px + ( 100 - 75 ) * ( ( 100vw - 0px ) / ( 1400 - 0 ) ) ) !important;
+    @include fluidSize( padding-top, 0px, 1400px, 175px, 275px, true );
+    @include fluidSize( padding-bottom, 0px, 1400px, 75px, 100px, true );
     &.--p-sm {
-        padding-top: calc( 140px + ( 200 - 140 ) * ( ( 100vw - 0px ) / ( 1400 - 0 ) ) ) !important;
+        @include fluidSize( padding-top, 0px, 1400px, 140px, 200px, true );
     }
     &.--front {
-        padding-top: calc( 200px + ( 300 - 200 ) * ( ( 100vw - 0px ) / ( 1400 - 0 ) ) ) !important;
-        padding-bottom: calc( 130px + ( 200 - 130 ) * ( ( 100vw - 0px ) / ( 1400 - 0 ) ) ) !important;
+        @include fluidSize( padding-top, 0px, 1400px, 200px, 300px, true );
+        @include fluidSize( padding-bottom, 0px, 1400px, 130px, 200px, true );
     }
     &.fusion-fullwidth .fusion-row,
     & .fusion-layout-column {
@@ -22,17 +22,6 @@
         & > *:not( .fusion-imageframe ) {
             @extend %u-position-relative;
             z-index: 1;
-        }
-    }
-    @include breakpointMin( 1400 ) {
-        padding-top: 275px !important;
-        padding-bottom: 100px !important;
-        &.--p-sm {
-            padding-top: 200px !important;
-        }
-        &.--front {
-            padding-top: 300px !important;
-            padding-bottom: 200px !important;
         }
     }
 }

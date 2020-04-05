@@ -36,7 +36,8 @@ $g-breakpoints: (
 	900: 900px,
 	901: 901px,
 	1000: 1000px,
-	1400: 1400px
+	1400: 1400px,
+	2560: 2560px
 );
 
 /* Layout padding */
@@ -54,5 +55,18 @@ $g-transitions: (
 		duration: 300ms,
 		timingFunction: 'ease-in-out',
 		timingFunctionCubic: 'cubic-bezier( .07, .50, .12, 1 )'
+	)
+);
+
+$g-defTransitions: map-get( $g-transitions, 'def' );
+$g-defDuration: map-get( $g-defTransitions, 'duration' );
+$g-defTimingFunction: map-get( $g-defTransitions, 'timingFunction' );
+
+/* Z index */
+
+$g-zIndex: (
+	loader: (
+		def: 80,
+		page: 110
 	)
 );
