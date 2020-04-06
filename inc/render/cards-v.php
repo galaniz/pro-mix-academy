@@ -38,7 +38,7 @@
      ] );
 
      if( $featured_img ) {
-         $fig_classes = 'o-aspect-ratio u-op-70 l-max-h-400 --p-65 ' . ( $gradient ? 'o-gray__item' : '' );
+         $fig_classes = 'o-aspect-ratio u-op-70 l-max-h-400 --p-65 ' . ( $gradient ? 'o-gray__item' : 'o-gray__fig' );
          $featured_img = "<a class='u-transform-scale" . ( $gradient ? '-fig' : '' ) . "' href='$url'><figure class='$fig_classes'>$featured_img</figure></a>";
      }
 
@@ -61,11 +61,11 @@
              ] );
 
              if( $mentor_img )
-                 $mentor_img = "<a href='$mentor_url'><figure class='l-w-70 o-aspect-ratio --circle'>$mentor_img</figure></a>";
+                 $mentor_img = "<a href='$mentor_url'><figure class='l-w-70 o-aspect-ratio --circle o-gray__fig'>$mentor_img</figure></a>";
 
              $meta =
                  "<div class='l-flex l-pad-v-sm-t l-pad-h-sm --align-center --justify-center'>" .
-                     "<div class='l-pad-h__item'>" .
+                     "<div class='l-pad-h__item o-gray --gray-30'>" .
                          $mentor_img .
                      "</div>" .
                      "<div class='l-pad-h__item u-fade-out-links'>" .
@@ -84,7 +84,7 @@
          }
      }
 
-     $item_classes = 'l-33 --max l-pad-h__item l-flex-equal l-pad-v-xl-b' . ( $gradient ? ' o-gray --gray-100' : '' );
+     $item_classes = 'l-33 --max l-pad-h__item l-flex-equal l-pad-v-xl-b o-gray' . ( $gradient ? ' --gray-100' : ' --gray-30' );
 
      return
          "<div class='$item_classes'>" .

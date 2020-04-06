@@ -29,63 +29,72 @@
     &.--gray-20 {
         & .fusion-column-inner-bg-image,
         & .fusion-imageframe img,
-        & .o-gray__item img, {
+        & .o-gray__item img,
+        & .o-gray__fig img {
             @include grayscale( 20% );
         }
     }
     &.--gray-30 {
         & .fusion-column-inner-bg-image,
         & .fusion-imageframe img,
-        & .o-gray__item img, {
+        & .o-gray__item img,
+        & .o-gray__fig img {
             @include grayscale( 30% );
         }
     }
     &.--gray-40 {
         & .fusion-column-inner-bg-image,
         & .fusion-imageframe img,
-        & .o-gray__item img, {
+        & .o-gray__item img,
+        & .o-gray__fig img {
             @include grayscale( 40% );
         }
     }
     &.--gray-50 {
         & .fusion-column-inner-bg-image,
         & .fusion-imageframe img,
-        & .o-gray__item img, {
+        & .o-gray__item img,
+        & .o-gray__fig img {
             @include grayscale( 50% );
         }
     }
     &.--gray-100 {
         & .fusion-column-inner-bg-image,
         & .fusion-imageframe img,
-        & .o-gray__item img, {
+        & .o-gray__item img,
+        & .o-gray__fig img {
             @extend %u-grayscale;
         }
     }
     &.--op-30 {
         & .fusion-column-inner-bg-image,
         & .fusion-imageframe img,
-        & .o-gray__item img {
+        & .o-gray__item img,
+        & .o-gray__fig img {
             opacity: 0.3 !important;
         }
     }
     &.--op-40 {
         & .fusion-column-inner-bg-image,
         & .fusion-imageframe img,
-        & .o-gray__item img {
+        & .o-gray__item img,
+        & .o-gray__fig img {
             opacity: 0.4 !important;
         }
     }
     &.--op-50 {
         & .fusion-column-inner-bg-image,
         & .fusion-imageframe img,
-        & .o-gray__item img {
+        & .o-gray__item img,
+        & .o-gray__fig img {
             @extend %u-opacity-50;
         }
     }
     &.--op-75 {
         & .fusion-column-inner-bg-image,
         & .fusion-imageframe img,
-        & .o-gray__item img {
+        & .o-gray__item img,
+        & .o-gray__fig img {
             opacity: 0.75 !important;
         }
     }

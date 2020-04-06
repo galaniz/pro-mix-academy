@@ -49,9 +49,9 @@ function pma_render_card_flex( $args = [] ) {
     ] );
 
     if( $featured_img ) {
-        $fig_classes = 'o-aspect-ratio --circle o-gray --gray-30';
+        $fig_classes = 'o-aspect-ratio --circle o-gray__fig';
         $featured_img =
-            "<div class='l-pad-v-b l-w-150" . ( !$horizontal ? ' --fixed l-pad-h__item u-m-b-auto' : ' --lg u-m-auto' ) . "'>" .
+            "<div class='o-gray --gray-30 l-pad-v-b l-w-150" . ( !$horizontal ? ' --fixed l-pad-h__item u-m-b-auto' : ' --lg u-m-auto' ) . "'>" .
                 "<figure class='$fig_classes'>$featured_img</figure>" .
             "</div>";
     }

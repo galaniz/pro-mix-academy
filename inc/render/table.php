@@ -65,9 +65,9 @@ function pma_render_table_content( $args = [] ) {
     ] );
 
     if( $featured_img ) {
-        $fig_classes = 'o-aspect-ratio u-height-100 u-op-70 --p-65' . ( $gradient ? ' o-gray__item' : '' );
+        $fig_classes = 'o-aspect-ratio o-gray__fig u-height-100 u-op-70 --p-65' . ( $gradient ? ' o-gray__item' : '' );
         $featured_img =
-            "<a class='u-width-100 u-display-block o-table__thumb' href='$url'>" .
+            "<a class='u-width-100 u-display-block o-table__thumb o-gray --gray-30' href='$url'>" .
                 "<figure class='$fig_classes'>$featured_img</figure>" .
             "</a>";
     }

@@ -40,9 +40,9 @@ function pma_render_card_h( $args = [] ) {
     ] );
 
     if( $featured_img ) {
-        $fig_classes = 'o-aspect-ratio --circle';
+        $fig_classes = 'o-aspect-ratio --circle o-gray__fig';
         $featured_img =
-            "<div class='l-pad-h__item l-w-150 u-m-b-auto'>" .
+            "<div class='l-pad-h__item l-w-150 u-m-b-auto o-gray --gray-30'>" .
                 "<a class='u-transform-scale-fig' href='$url'><figure class='$fig_classes'>$featured_img</figure></a>" .
             "</div>";
     }
@@ -99,8 +99,8 @@ function pma_render_card_h_sm( $args = [] ) {
                         "<div class='l-flex l-pad-h-xs --align-center'>" .
                             "<div class='l-pad-h__item$img_item_class'>" .
                                 "<a href='$mentor_url'>" .
-                                    "<div class='l-w-$width'>" .
-                                        "<figure class='o-aspect-ratio --circle'>$mentor_img</figure>" .
+                                    "<div class='l-w-$width o-gray --gray-30'>" .
+                                        "<figure class='o-aspect-ratio --circle o-gray__fig'>$mentor_img</figure>" .
                                     "</div>" .
                                 "</a>" .
                             "</div>" .
