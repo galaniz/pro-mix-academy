@@ -37,34 +37,48 @@
 }
 
 .l-w-150 {
-	width: calcRem( 150px );
-	@include breakpointMax( 1000 ) {
-		width: calcRem( 90px );
+	width: 33.33333%;
+	max-width: calcRem( 150px );
+	min-width: calcRem( 75px );
+	box-sizing: content-box;
+	&.--fixed {
+		@extend %u-flex-shrink-0;
+		min-width: calcRem( 150px );
+		max-width: calcRem( 150px );
+	}
+	&.--lg {
+		@extend %u-width-100;
+	}
+	@include breakpointMax( 1200 ) {
+		&.--fixed {
+			min-width: calcRem( 85px );
+			max-width: calcRem( 85px );
+		}
 	}
 }
 
 .l-w-150-meta {
-	@include breakpointMax( 1000 ) {
+	@include breakpointMax( 1200 ) {
 		min-height: calcRem( 90px );
 		& > div {
 			margin: auto 0;
 		}
 	}
-	@include breakpointMin( 1000 ) {
+	@include breakpointMin( 1200 ) {
 		padding-top: 15px;
 	}
 }
 
 .l-w-150-text {
-	@include breakpointMax( 1000 ) {
-		margin-left: calcRem( -120px );
+	@include breakpointMax( 1200 ) {
+		margin-left: calcRem( -115px );
 	}
 }
 
 .l-w-300 {
-	width: 33.33333%;
+	width: 33.33333vw;
 	min-width: calcRem( 180px );
-	max-width: calcRem( 380px );
+	max-width: calcRem( 300px );
 	@include breakpointMax( 900 ) {
 		margin: 0 auto;
 	}

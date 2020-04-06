@@ -8,6 +8,23 @@
     & .o-gray__item,
     & .fusion-imageframe {
         @extend %u-bottom-gradient;
+        &.--side-gradient {
+            &::before {
+                content: '';
+                @extend %u-position-absolute;
+                @extend %u-top-0;
+                @extend %u-left-0;
+                @extend %u-right-0;
+                @extend %u-bottom-0;
+                @include linearGradient(
+                    to right,
+                    false,
+                    rgba( getColor( 'foreground-base' ), 1 ) 0%,
+                    rgba( getColor( 'foreground-base' ), 0 ) 100%
+                );
+                z-index: 1;
+            }
+        }
     }
     &.--gray-20 {
         & .fusion-column-inner-bg-image,
@@ -63,6 +80,13 @@
         & .fusion-imageframe img,
         & .o-gray__item img {
             @extend %u-opacity-50;
+        }
+    }
+    &.--op-75 {
+        & .fusion-column-inner-bg-image,
+        & .fusion-imageframe img,
+        & .o-gray__item img {
+            opacity: 0.75 !important;
         }
     }
     & .fusion-column-inner-bg {

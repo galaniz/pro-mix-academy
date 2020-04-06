@@ -44,12 +44,6 @@ p {
     margin-top: 0 !important;
 }
 
-h1 {
-    @include breakpointMax( 900 ) {
-        margin-bottom: calcRem( 30px ) !important;
-    }
-}
-
 h2 {
     .sm-h &,
     &.sm {
@@ -75,6 +69,12 @@ p {
     @include breakpointMax( 1000 ) {
         @include fontRem( 18px );
     }
+}
+
+input,
+textarea,
+select {
+    letter-spacing: 0.01em;
 }
 
 *:focus {

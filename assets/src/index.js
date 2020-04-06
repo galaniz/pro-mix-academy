@@ -195,7 +195,7 @@ const initialize = () => {
  		/* Data */
 
 		let data = {
-			action: type === 'comments' ? 'pma_get_comments' : 'pma_get_posts'
+			action: 'pma_ajax_get_posts'
 		};
 
 		if( window.hasOwnProperty( ns + '_load_posts_query' ) )

@@ -21,7 +21,8 @@ $g-colors: 	(
 		base: #FFFFFF,
 		light: #FFFFFF,
 		dark: #42474A
-	)
+	),
+	error: #E44D2B
 );
 
 /* Breakpoints */
@@ -36,6 +37,7 @@ $g-breakpoints: (
 	900: 900px,
 	901: 901px,
 	1000: 1000px,
+	1200: 1200px,
 	1400: 1400px,
 	2560: 2560px
 );

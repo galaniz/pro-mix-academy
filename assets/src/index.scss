@@ -52,6 +52,14 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 @import '~Formation/layouts/breakout';
 @import 'layouts/layouts';
 
+// override layout padding
+.u-p-v-0-900 {
+    @include breakpointMin( 900 ) {
+        padding-bottom: 0 !important;
+        padding-top: 0 !important;
+    }
+}
+
 /* Components */
 
 @import 'components/header';

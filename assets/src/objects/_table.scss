@@ -21,7 +21,7 @@
     & tbody tr:last-child {
         border-bottom: 0;
     }
-    &[data-courses="true"] {
+    &[data-course="true"] {
         margin-top: -30px;
     }
     &[data-collapse="true"] {
@@ -36,14 +36,14 @@
                 padding-right: 0;
             }
         }
-        &[data-courses="true"] {
+        &[data-course="true"] {
             & .o-table__desc {
                 max-width: calcRem( 300px );
                 min-width: calcRem( 180px );
             }
         }
     }
-    &[data-courses="true"][data-collapse="true"] {
+    &[data-course="true"][data-collapse="true"] {
         & td {
             &:first-child {
                 float: left;

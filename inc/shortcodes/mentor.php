@@ -1,113 +1,21 @@
 <?php
 
 /*
- * Output mentors and mentor
- * -------------------------
+ * Output single mentor
+ * --------------------
  */
-
-/* Mentors shortcode */
-
-function pma_mentors_shortcode( $atts ) {
-	$atts = shortcode_atts( [
-        'posts_per_page' => 10,
-		'load_more' => 10,
-		'only_rows' => false,
-		'query_args' => []
-	], $atts, 'mentors' );
-
-    extract( $atts );
-
-    $output = '';
-    $archive = true;
-	$only_rows = $only_rows === 'true' ? true : false;
-
-    global $wp_query;
-
-    if( !pma_check_wp_query_vars( $wp_query, 'post_type', 'mentor' ) ) {
-        $args = [
-            'post_type' => 'mentor',
-            'posts_per_page' => $posts_per_page
-        ];
-
-		if( is_array( $query_args ) && count( $query_args ) > 0 ) {
-			// merge query_args with args
-			$args = array_replace_recursive( $args, $query_args );
-		}
-
-        $q = new WP_Query( $args );
-
-        $archive = false;
-    } else {
-        $q = $wp_query;
-    }
-
-    if( $q->have_posts() ) {
-        $output = '<div class="l-flex l-pad-h-' . ( $archive ? 'xl' : 'lg' ) .' l-pad-v-container u-fig --xl-b --wrap">';
-
-        while( $q->have_posts() ) {
-            $q->the_post();
-
-            $id = get_the_ID();
-            $url = get_the_permalink();
-            $name = get_the_title();
-            $artists = get_field( 'artists', $id );
-
-            $featured_img = get_the_post_thumbnail( $id, 'medium', [
-                'class' => 'o-aspect-ratio__media u-object-cover'
-            ] );
-
-            if( $featured_img ) {
-                $fig_classes = 'o-aspect-ratio --circle';
-                $featured_img =
-                    "<div class='l-pad-h__item'>" .
-                        "<div class='l-w-150'>" .
-                            "<a class='u-transform-scale-fig' href='$url'><figure class='$fig_classes'>$featured_img</figure></a>" .
-                        "</div>" .
-                    "</div>";
-            }
-
-            $meta =
-                "<div class='l-pad-h__item u-fade-out-links'>" .
-                    "<h3 class='u-color-primary-light u-m-0 l-pad-v-sm-b lg'>" .
-                        "<a href='$url'>$name</a>" .
-                    "</h3>" .
-                    ( $artists ? "<div class='u-text'>$artists</div>" : '' ) .
-                "</div>";
-
-            $output .=
-                "<div class='l-50 u-flex-grow-1 l-pad-v-xl-b l-pad-h__item --max'>" .
-                    "<div class='l-flex l-pad-h-md --align-center'>" .
-                        $featured_img .
-                        $meta .
-                    "</div>" .
-                "</div>";
-        }
-
-        $output .= '</div>';
-
-        wp_reset_postdata();
-    }
-
-	return $output;
-}
-add_shortcode( 'mentors', 'pma_mentors_shortcode' );
 
 /* Mentor shortcode */
 
 function pma_mentor_shortcode( $atts ) {
-	$atts = shortcode_atts( [
-        'social' => true
-	], $atts, 'mentor' );
-
-    extract( $atts );
-
-    $social = $social === 'false' ? false : true;
-
     $output = '';
 
     $id = get_the_ID();
     $name = get_the_title();
     $artists = get_field( 'artists', $id );
+	$social = get_field( 'social', $id );
+
+	/* Featured image */
 
     $featured_img = get_the_post_thumbnail( $id, 'large', [
         'class' => 'o-aspect-ratio__media u-object-cover'
@@ -118,31 +26,39 @@ function pma_mentor_shortcode( $atts ) {
         $featured_img = "<figure class='$fig_classes'>$featured_img</figure>";
     }
 
-    $social = '';
-        /*"<div class='l-pad-v-xl-t'>" .
-            "<div class='l-flex l-pad-h-sm --wrap --justify-center --align-center'>" .
-                "<div class='l-pad-h__item'>" .
-                    "<a class='o-social u-color-primary-light fusion-facebook fusion-icon-facebook' href='' rel='noopener noreferrer'>" .
-                        "<div class='u-visually-hidden'>Facebook</div>" .
-                    "</a>" .
-                "</div>" .
-                "<div class='l-pad-h__item'>" .
-                    "<a class='o-social u-color-primary-light fusion-twitter fusion-icon-twitter' href='' rel='noopener noreferrer'>" .
-                        "<div class='u-visually-hidden'>Twitter</div>" .
-                    "</a>" .
-                "</div>" .
-                "<div class='l-pad-h__item'>" .
-                    "<a class='o-social u-color-primary-light fusion-linkedin fusion-icon-linkedin' href='' rel='noopener noreferrer'>" .
-                        "<div class='u-visually-hidden'>Linkedin</div>" .
-                    "</a>" .
-                "</div>" .
-            "</div>" .
-        "</div>";*/
+	/* Social links */
+
+	$social_output = '';
+
+	if( $social ) {
+		$social_array = pma_get_assoc_array( $social );
+
+		if( $social_array ) {
+			$social_output .=
+				"<div class='l-pad-v-xl-t'>" .
+					"<div class='l-pad-h-sm l-pad-v-container --xs l-flex --wrap --justify-center --align-center'>";
+
+			foreach( $social_array as $s => $link ) {
+				$s_lower = strtolower( $s );
+
+				$social_output .=
+					"<div class='l-pad-h__item l-pad-v-xs'>" .
+						"<a class='o-social u-color-primary-light fusion-$s_lower fusion-icon-$s_lower' href='$link' rel='noopener noreferrer'>" .
+							"<div class='u-visually-hidden'>$s</div>" .
+						"</a>" .
+					"</div>";
+			}
+
+			$social_output .=
+					"</div>" .
+				"</div>";
+		}
+	}
 
     $left =
-        "<div class='l-w-300 l-pad-h__item l-pad-v-lg-b u-fig u-transform-y-900'>" .
-            $featured_img .
-            $social .
+        "<div class='l-pad-h__item l-pad-v-lg-b u-fig u-m-0-auto u-transform-y-900'>" .
+			"<div class='l-w-300'>$featured_img</div>" .
+            $social_output .
         "</div>";
 
     $content =
@@ -160,7 +76,7 @@ function pma_mentor_shortcode( $atts ) {
             $content .
         "</div>";
 
-    $courses = do_shortcode( '[courses mentor_id="' . $id . '" ]' );
+    $courses = do_shortcode( '[get-posts type="course" posts_per_page="3" mentor_id="' . $id . '" ]' );
 
     if( $courses ) {
         $output .=

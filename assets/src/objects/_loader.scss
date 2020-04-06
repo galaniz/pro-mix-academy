@@ -6,6 +6,14 @@
 
 @import '~Formation/objects/load/loader';
 
+.o-loader-before {
+    @extend %u-opacity-0;
+    @extend %u-transition-opacity-ease;
+    .o-loader.--hide ~ & {
+        @extend %u-opacity-1;
+    }
+}
+
 .o-loader__icon {
     @extend %u-position-absolute;
     @extend %u-position-vertical-center;

@@ -9,8 +9,7 @@
 }
 
 .o-button,
-.wp-block-file__button,
-.wp-block-button__link {
+.fusion-load-more-button {
     @extend %u-transition-transform-ease;
 	@extend %u-display-inline-block;
 	@extend %u-position-relative;
@@ -51,20 +50,24 @@
         background-color: getColor( 'primary-light' ) !important;
         border-color: getColor( 'primary-light' ) !important;
     }
-	&:hover,
-	&:focus,
-	&:active {
-        &:not( .--radio ) {
+}
+
+.o-button {
+    &:hover,
+    &:focus,
+    &:active {
+        &:not( .--radio ):not( .--no-scale ) {
             @extend %u-transform-scale;
         }
-	}
+    }
 }
 
 .button-large {
     @extend %_buttonLarge;
 }
 
-.fusion-button {
+.fusion-button,
+.o-button.--no-scale {
     @extend %u-position-relative;
     @extend %u-overflow-hidden;
     &::after {
@@ -79,7 +82,8 @@
         opacity: 0.25;
         transform: scaleX( 0 );
     }
-    & .fusion-button-text {
+    & .fusion-button-text,
+    & .o-button__text {
         @extend %u-position-relative;
         z-index: 2;
     }

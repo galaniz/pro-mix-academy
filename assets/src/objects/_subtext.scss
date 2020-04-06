@@ -6,7 +6,8 @@
 
 .o-subtext,
 .o-subtext-sm,
-.o-subtext-lg {
+.o-subtext-lg,
+.fusion-load-more-button {
     &,
     & * {
         @extend %u-text-transform-uppercase;

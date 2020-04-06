@@ -8,6 +8,9 @@
     & .fusion-row {
         @extend %u-display-flex;
         flex-wrap: wrap;
+        &::before {
+            content: none;
+        }
     }
 	@include breakpointMin( 901 ) {
 		& .fusion-layout-column {
