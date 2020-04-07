@@ -35,6 +35,9 @@ function pma_get_posts_shortcode( $atts ) {
 
     $archive = is_post_type_archive( $type );
 
+    if( $type === 'course' && is_tax( 'course_category' ) )
+        $archive = true;
+
     // for courses
     $show_rating = (bool) get_option( 'pma_course_show_rating', '' );
 
@@ -232,7 +235,7 @@ function pma_get_posts_shortcode( $atts ) {
                 $ajax_ppp = pma_get_ppp( $type, true );
 
                 $output .=
-                    '<div class="js-no-results u-p-0" style="display:none;">' .
+                    '<div class="js-no-results l-pad-v-t u-p-0" style="display:none;">' .
                         '<p>Sorry looks like nothing was found.</p>' .
                     '</div>' .
                     "<div class='l-pad-v-x" . ( $layout === 'cards_h' ? 'x' : '' ) . "l-t u-text-align-center u-position-relative" . ( $type === 'course' ? ' u-b-top' : '' ) . "'$hide_load_more>" .

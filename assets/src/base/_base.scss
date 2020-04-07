@@ -66,6 +66,9 @@ p {
     .post-content & {
         margin-bottom: 30px !important;
     }
+    .u-m-b-sm & {
+        margin-bottom: 15px !important;
+    }
     @include breakpointMax( 1000 ) {
         @include fontRem( 18px );
     }

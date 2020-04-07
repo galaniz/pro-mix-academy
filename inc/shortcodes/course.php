@@ -69,7 +69,7 @@ function pma_course_meta_shortcode( $atts ) {
 	if( $show_rating ) {
 		$output .=
 			'<div class="l-pad-h__item l-pad-v-md-b">' .
-				pma_render_stars( (int) get_field( 'rating', $id ) ) .
+				pma_render_stars( (float) get_field( 'rating', $id ) ) .
 			'</div>';
 	}
 
@@ -118,8 +118,8 @@ function pma_course_mentors_shortcode( $atts ) {
 
 			if( $img ) {
 				$img =
-					"<a class='l-flex-equal u-transform-scale' href='$url'>" .
-						"<figure class='l-flex-equal u-overflow-hidden'>$img</figure>" .
+					"<a class='l-flex-equal u-transform-scale o-gray --gray-30' href='$url'>" .
+						"<figure class='l-flex-equal u-overflow-hidden o-gray__fig'>$img</figure>" .
 					"</a>";
 			}
 
@@ -255,7 +255,7 @@ function pma_courses_filters_shortcode( $atts ) {
                 "<div class='o-loader__icon'></div>" .
             "</div>" .
             "<form class='o-loader-before js-load-more-filters l-pad-v-container --b'>" .
-                "<div class='l-pad-v-b'>" .
+                "<div class='l-pad-v-b l-pad-v-lg-t'>" .
                     "<div class='l-pad-h-xs l-pad-v-container --md-b l-flex --align-center --wrap'>" .
                         $output .
                         '<div class="l-pad-h__item l-pad-v-md-b js-no-results" style="display:none;">' .

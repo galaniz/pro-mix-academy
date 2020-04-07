@@ -37,7 +37,7 @@
 }
 
 .l-w-150 {
-	width: 33.33333%;
+	width: 25%;
 	max-width: calcRem( 150px );
 	min-width: calcRem( 75px );
 	box-sizing: content-box;
@@ -90,5 +90,5 @@
 }
 
 .l-max-700 {
-	max-width: 700px;
+	max-width: 700px !important;
 }

@@ -200,12 +200,6 @@
     }
 }
 
-.u-transform-y-900 {
-    @include breakpointMin( 900 ) {
-        transform: translateY( -20% );
-    }
-}
-
 /* Underline */
 
 .u-underline {
@@ -321,10 +315,23 @@
 
 .u-soundcloud iframe {
     max-height: calcRem( 400px );
-    height: 50vw;
     min-height: calcRem( 250px );
+    height: 50vw;
+}
+
+.u-youtube {
+    max-height: none !important;
 }
 
 .u-nowrap {
     white-space: nowrap;
+}
+
+.u-thumb-up {
+    @include breakpointMax( 901 ) {
+        margin-top: -10% !important;
+    }
+    @include breakpointMin( 900 ) {
+        transform: translateY( -20% );
+    }
 }

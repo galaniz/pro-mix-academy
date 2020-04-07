@@ -76,7 +76,7 @@ function pma_render_table_content( $args = [] ) {
 
     if( $type === 'course' ) {
         $mentors = get_field( 'mentor', $id );
-        $rating = (int) get_field( 'rating', $id );
+        $rating = (float) get_field( 'rating', $id );
         $price = (int) get_field( 'price', $id );
         $price = '&dollar;' . $price;
 

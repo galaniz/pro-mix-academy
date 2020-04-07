@@ -56,7 +56,7 @@ function pma_mentor_shortcode( $atts ) {
 	}
 
     $left =
-        "<div class='l-pad-h__item l-pad-v-lg-b u-fig l-w-300 u-transform-y-900 u-flex-shrink-0'>" .
+        "<div class='l-pad-h__item l-pad-v-lg-b u-fig l-w-300 u-thumb-up u-flex-shrink-0'>" .
 			"<div class='o-gray --gray-40'>$featured_img</div>" .
             $social_output .
         "</div>";
