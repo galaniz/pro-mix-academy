@@ -22,7 +22,7 @@ function pma_mentor_shortcode( $atts ) {
     ] );
 
     if( $featured_img ) {
-        $fig_classes = 'o-aspect-ratio --circle';
+        $fig_classes = 'o-aspect-ratio --circle o-gray__fig';
         $featured_img = "<figure class='$fig_classes'>$featured_img</figure>";
     }
 
@@ -56,8 +56,8 @@ function pma_mentor_shortcode( $atts ) {
 	}
 
     $left =
-        "<div class='l-pad-h__item l-pad-v-lg-b u-fig u-m-0-auto u-transform-y-900'>" .
-			"<div class='l-w-300'>$featured_img</div>" .
+        "<div class='l-pad-h__item l-pad-v-lg-b u-fig l-w-300 u-transform-y-900 u-flex-shrink-0'>" .
+			"<div class='o-gray --gray-40'>$featured_img</div>" .
             $social_output .
         "</div>";
 

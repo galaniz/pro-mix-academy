@@ -88,6 +88,14 @@ add_shortcode( 'course-meta', 'pma_course_meta_shortcode' );
 /* Course mentors shortcode */
 
 function pma_course_mentors_shortcode( $atts ) {
+	$atts = shortcode_atts( [
+		'contain' => 'true'
+	], $atts, 'course-mentors' );
+
+	extract( $atts );
+
+	$contain = filter_var( $contain, FILTER_VALIDATE_BOOLEAN );
+
 	$output = "<div class='l-pad-v-container u-fig --xl-b'>";
 
 	// mentors
@@ -99,8 +107,14 @@ function pma_course_mentors_shortcode( $atts ) {
 		foreach( $mentors as $mentor ) {
 			$name = get_the_title( $mentor );
 			$url = get_the_permalink( $mentor );
-			$img = get_the_post_thumbnail( $mentor, 'large' );
 			$excerpt = pma_get_excerpt( $mentor, 50 );
+			$img = (int) get_field( 'landscape_featured_image', $mentor );
+
+			if( $img ) {
+				$img = wp_get_attachment_image( $img, 'large' );
+			} else {
+				$img = get_the_post_thumbnail( $mentor, 'large' );
+			}
 
 			if( $img ) {
 				$img =
@@ -109,8 +123,10 @@ function pma_course_mentors_shortcode( $atts ) {
 					"</a>";
 			}
 
+			$contain_class = $contain ? " --contain" : '';
+
 			$media =
-				"<div class='l-50 l-pad-h__item l-col__media --max-h --contain'>" .
+				"<div class='l-50 l-pad-h__item l-col__media --max-h$contain_class'>" .
 					"<div class='l-col__inner'>" .
 						"<div class='l-col__content l-flex-equal'>" .
 							$img .

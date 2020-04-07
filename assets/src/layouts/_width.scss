@@ -76,9 +76,9 @@
 }
 
 .l-w-300 {
-	width: 33.33333vw;
-	min-width: calcRem( 180px );
-	max-width: calcRem( 300px );
+	width: 33.33333%;
+	min-width: calcRem( 240px );
+	max-width: calcRem( 380px );
 	@include breakpointMax( 900 ) {
 		margin: 0 auto;
 	}

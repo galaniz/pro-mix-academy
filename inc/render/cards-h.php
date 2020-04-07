@@ -49,7 +49,7 @@ function pma_render_card_h( $args = [] ) {
 
     $meta =
         "<div class='l-pad-h__item u-fade-out-links'>" .
-            "<h3 class='u-color-primary-light u-m-0 l-pad-v-sm-b lg'>" .
+            "<h3 class='u-color-primary-light u-m-0 l-pad-v-xs-b lg'>" .
                 "<a href='$url'>$title</a>" .
             "</h3>" .
             ( $subtext ? "<div class='u-text'>$subtext</div>" : '' ) .

@@ -74,6 +74,10 @@
     @extend %u-flex-grow-1;
 }
 
+.u-flex-shrink-0 {
+    @extend %u-flex-shrink-0;
+}
+
 /* Text */
 
 .u-text,
