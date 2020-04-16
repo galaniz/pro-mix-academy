@@ -3,7 +3,7 @@
 Theme Name: Avada Child
 Theme URI: https://promixacademy.com/
 Description: Theme for Pro Mix Academy based on Avada
-Template: avada
+Template: Avada
 Author: Graciela Alaniz
 Author URI: https://gracielaalaniz.com
 Version: 1.0
@@ -48,8 +48,6 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 /* Layouts */
 
-@import '~Formation/layouts/flex';
-@import '~Formation/layouts/breakout';
 @import 'layouts/layouts';
 
 // override layout padding

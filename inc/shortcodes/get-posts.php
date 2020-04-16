@@ -16,7 +16,8 @@ function pma_get_posts_shortcode( $atts ) {
         'category_slug' => '',
         'mentor_id' => 0, // course single
         'show_content' => true,
-        'horizontal' => true
+        'horizontal' => true,
+        'ids' => '' // comma separated list of ids
     ], $atts, 'get-posts' );
 
     extract( $atts );
@@ -68,6 +69,16 @@ function pma_get_posts_shortcode( $atts ) {
             'post_type' => $type,
             'posts_per_page' => $posts_per_page
         ];
+
+        if( $ids ) {
+            $post_ids = explode( ',', $ids );
+
+            $post_ids = array_map( function( $v ) {
+                return (int) $v;
+            }, $post_ids );
+
+            $args['post__in'] = $post_ids;
+        }
 
         if( $type === 'course' ) {
             if( $category_slug ) {

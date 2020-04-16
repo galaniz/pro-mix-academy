@@ -5,17 +5,47 @@
  */
 
 .c-page-title-bar {
-    @include fluidSize( padding-top, 0px, 1400px, 175px, 275px, true );
-    @include fluidSize( padding-bottom, 0px, 1400px, 75px, 100px, true );
+    @include fluidSize(
+        padding-top,
+        175px 275px,
+        0px 1400px,
+        true
+    );
+    @include fluidSize(
+        padding-bottom,
+        75px 100px,
+        0px 1400px,
+        true
+    );
     &.--p-sm {
-        @include fluidSize( padding-top, 0px, 1400px, 140px, 200px, true );
+        @include fluidSize(
+            padding-top,
+            140px 200px,
+            0px 1400px,
+            true
+        );
     }
     &.--p-b-sm {
-        @include fluidSize( padding-bottom, 0px, 1400px, 15px, 30px, true );
+        @include fluidSize(
+            padding-bottom,
+            15px 30px,
+            0px 1400px,
+            true
+        );
     }
     &.--front {
-        @include fluidSize( padding-top, 0px, 1400px, 200px, 300px, true );
-        @include fluidSize( padding-bottom, 0px, 1400px, 130px, 200px, true );
+        @include fluidSize(
+            padding-top,
+            200px 300px,
+            0px 1400px,
+            true
+        );
+        @include fluidSize(
+            padding-bottom,
+            130px 200px,
+            0px 1400px,
+            true
+        );
     }
     &.fusion-fullwidth .fusion-row,
     & .fusion-layout-column {

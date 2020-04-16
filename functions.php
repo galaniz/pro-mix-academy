@@ -37,10 +37,6 @@ require get_stylesheet_directory() . '/inc/admin.php';
 
 require get_stylesheet_directory() . '/inc/avada.php';
 
-/* Relevanssi hooks */
-
-require get_stylesheet_directory() . '/inc/relevanssi.php';
-
 /* Shortcodes */
 
 require get_stylesheet_directory() . '/inc/shortcodes/course.php';
