@@ -122,13 +122,7 @@ function pma_get_posts_shortcode( $atts ) {
             $args = array_replace_recursive( $args, $query_args );
         }
 
-        if( isset( $args['s'] ) && function_exists( 'relevanssi_do_query' ) ) {
-            $q = new WP_Query();
-            $q->parse_query( $args );
-            relevanssi_do_query( $q );
-        } else {
-            $q = new WP_Query( $args );
-        }
+        $q = new WP_Query( $args );
     } else {
         $q = $wp_query;
     }
