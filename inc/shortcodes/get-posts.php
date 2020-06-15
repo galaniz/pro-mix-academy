@@ -15,8 +15,12 @@ function pma_get_posts_shortcode( $atts ) {
         'gradient' => false,
         'category_slug' => '',
         'mentor_id' => 0, // course single
+        'meta_key' => '',
+        'meta_value' => '',
+        'meta_type' => 'string',
         'show_content' => true,
         'horizontal' => true,
+        'like_archive' => false,
         'ids' => '' // comma separated list of ids
     ], $atts, 'get-posts' );
 
@@ -29,6 +33,13 @@ function pma_get_posts_shortcode( $atts ) {
     $return_array = filter_var( $return_array, FILTER_VALIDATE_BOOLEAN );
     $show_content = filter_var( $show_content, FILTER_VALIDATE_BOOLEAN );
     $horizontal = filter_var( $horizontal, FILTER_VALIDATE_BOOLEAN );
+    $like_archive = filter_var( $like_archive, FILTER_VALIDATE_BOOLEAN );
+
+    if( $meta_type == 'int' || $meta_type == 'int-array' )
+        $meta_value == intval( $meta_value );
+
+    if( $meta_type == 'string' || $meta_type == 'string-array' ) 
+        $meta_value = strval( $meta_value );
 
     $output = '';
     $total = 0;
@@ -38,6 +49,11 @@ function pma_get_posts_shortcode( $atts ) {
 
     if( $type === 'course' && is_tax( 'course_category' ) )
         $archive = true;
+
+    if( $like_archive ) {
+        $posts_per_page = pma_get_ppp( $type );
+        $archive = true;
+    }
 
     // for courses
     $show_rating = (bool) get_option( 'pma_course_show_rating', '' );
@@ -81,6 +97,9 @@ function pma_get_posts_shortcode( $atts ) {
         }
 
         if( $type === 'course' ) {
+            if( !isset( $args['meta_query'] ) )
+                $args['meta_query'] = [];
+
             if( $category_slug ) {
                 $args['tax_query'] = [
                     [
@@ -92,28 +111,48 @@ function pma_get_posts_shortcode( $atts ) {
             }
 
             if( $mentor_id ) {
-                $args['meta_query'] = [
-                    [
-                        'key' => 'mentor',
-                        'value' => "$mentor_id",
-                        'compare' => 'LIKE'
-                    ]
+                $args['meta_query'][] = [
+                    'key' => 'mentor',
+                    'value' => "$mentor_id",
+                    'compare' => 'LIKE'
                 ];
             }
 
             // homepage meta
             if( is_front_page() ) {
-                $args['meta_query'] = [
-                    [
-                        'key' => 'homepage',
-                        'value' => '1',
-                        'compare' => 'LIKE'
-                    ]
+                $args['meta_query'][] = [
+                    'key' => 'homepage',
+                    'value' => '1',
+                    'compare' => 'LIKE'
                 ];
 
                 $args['meta_key'] = 'homepage_order';
                 $args['orderby'] = 'meta_value_num';
                 $args['order'] = 'ASC';
+            }
+
+            // general meta
+            if( !$return_array && $meta_value && $meta_key ) {
+                $compare = '=';
+
+                if( $meta_type == 'int-array' || $meta_type == 'string-array' )
+                    $compare = 'LIKE';
+
+                $args['meta_query'][] = [
+                    'key' => $meta_key,
+                    'value' => $meta_value,
+                    'compare' => $compare
+                ];
+
+                pma_additional_script_data( 'pma_load_posts_query_static', [
+                    'meta_query' => [
+                        [
+                            'key' => $meta_key,
+                            'value' => $meta_value,
+                            'compare' => $compare
+                        ]
+                    ]
+                ] ); 
             }
         }
 
@@ -121,6 +160,8 @@ function pma_get_posts_shortcode( $atts ) {
             // merge query_args with args
             $args = array_replace_recursive( $args, $query_args );
         }
+
+        // error_log( print_r( $args, true ) );
 
         $q = new WP_Query( $args );
     } else {
@@ -219,11 +260,19 @@ function pma_get_posts_shortcode( $atts ) {
                 $hide_load_more = false;
                 $href = '';
 
+                $ppp = pma_get_ppp( $type );
+                $ajax_ppp = pma_get_ppp( $type, true );
+
                 if( $total <= 1 ) {
                     $hide_load_more = true;
                 } else {
-                    if( !$next_posts_link )
-                        $hide_load_more = true;
+                    if( $like_archive ) {
+                        if( $total <= $ppp )
+                            $hide_load_more = true;
+                    } else {
+                        if( !$next_posts_link )
+                            $hide_load_more = true;
+                    }
                 }
 
                 if( $hide_load_more )
@@ -235,9 +284,6 @@ function pma_get_posts_shortcode( $atts ) {
                 } else {
                     $href = " type='button'";
                 }
-
-                $ppp = pma_get_ppp( $type );
-                $ajax_ppp = pma_get_ppp( $type, true );
 
                 $output .=
                     '<div class="js-no-results l-pad-v-t u-p-0" style="display:none;">' .
