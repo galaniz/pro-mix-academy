@@ -96,10 +96,10 @@ function pma_get_posts_shortcode( $atts ) {
             $args['post__in'] = $post_ids;
         }
 
-        if( $type === 'course' ) {
-            if( !isset( $args['meta_query'] ) )
-                $args['meta_query'] = [];
+        if( !isset( $args['meta_query'] ) )
+            $args['meta_query'] = [];
 
+        if( $type === 'course' ) {
             if( $category_slug ) {
                 $args['tax_query'] = [
                     [
@@ -130,38 +130,39 @@ function pma_get_posts_shortcode( $atts ) {
                 $args['orderby'] = 'meta_value_num';
                 $args['order'] = 'ASC';
             }
+        }
 
-            // general meta
-            if( !$return_array && $meta_value && $meta_key ) {
-                $compare = '=';
+        // general meta
+        if( !$return_array && $meta_value && $meta_key ) {
+            $compare = '=';
 
-                if( $meta_type == 'int-array' || $meta_type == 'string-array' )
-                    $compare = 'LIKE';
+            if( $meta_type == 'int-array' || $meta_type == 'string-array' )
+                $compare = 'LIKE';
 
-                $args['meta_query'][] = [
-                    'key' => $meta_key,
-                    'value' => $meta_value,
-                    'compare' => $compare
-                ];
+            $args['meta_query'][] = [
+                'key' => $meta_key,
+                'value' => $meta_value,
+                'compare' => $compare
+            ];
 
-                pma_additional_script_data( 'pma_load_posts_query_static', [
-                    'meta_query' => [
-                        [
-                            'key' => $meta_key,
-                            'value' => $meta_value,
-                            'compare' => $compare
-                        ]
+            pma_additional_script_data( 'pma_load_posts_query_static', [
+                'meta_query' => [
+                    [
+                        'key' => $meta_key,
+                        'value' => $meta_value,
+                        'compare' => $compare
                     ]
-                ] ); 
-            }
+                ]
+            ] ); 
         }
 
         if( is_array( $query_args ) && count( $query_args ) > 0 ) {
             // merge query_args with args
             $args = array_replace_recursive( $args, $query_args );
-        }
+        }   
 
-        // error_log( print_r( $args, true ) );
+        /*if( $type === 'mentor' )
+            error_log( print_r( $args, true ) );*/
 
         $q = new WP_Query( $args );
     } else {
