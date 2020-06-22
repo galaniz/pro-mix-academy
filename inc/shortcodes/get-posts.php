@@ -21,8 +21,7 @@ function pma_get_posts_shortcode( $atts ) {
         'show_content' => true,
         'horizontal' => true,
         'like_archive' => false,
-        'ids' => '', // comma separated list of ids
-        'ignore_homepage_order' => false
+        'ids' => '' // comma separated list of ids
     ], $atts, 'get-posts' );
 
     extract( $atts );
@@ -35,7 +34,6 @@ function pma_get_posts_shortcode( $atts ) {
     $show_content = filter_var( $show_content, FILTER_VALIDATE_BOOLEAN );
     $horizontal = filter_var( $horizontal, FILTER_VALIDATE_BOOLEAN );
     $like_archive = filter_var( $like_archive, FILTER_VALIDATE_BOOLEAN );
-    $ignore_homepage_order = filter_var( $ignore_homepage_order, FILTER_VALIDATE_BOOLEAN );
 
     if( $meta_type == 'int' || $meta_type == 'int-array' )
         $meta_value == intval( $meta_value );
@@ -120,18 +118,22 @@ function pma_get_posts_shortcode( $atts ) {
                 ];
             }
 
+            /*
             // homepage meta
-            if( is_front_page() && !$ignore_homepage_order ) {
+            if( is_front_page() ) {
                 $args['meta_query'][] = [
                     'key' => 'homepage',
                     'value' => '1',
                     'compare' => 'LIKE'
                 ];
-
-                $args['meta_key'] = 'homepage_order';
-                $args['orderby'] = 'meta_value_num';
-                $args['order'] = 'ASC';
+                
+                if( !$ignore_homepage_order ) {
+                    $args['meta_key'] = 'homepage_order';
+                    $args['orderby'] = 'meta_value_num';
+                    $args['order'] = 'ASC';
+                }
             }
+            */
         }
 
         // general meta
