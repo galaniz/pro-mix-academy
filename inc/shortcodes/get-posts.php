@@ -21,7 +21,10 @@ function pma_get_posts_shortcode( $atts ) {
         'show_content' => true,
         'horizontal' => true,
         'like_archive' => false,
-        'ids' => '' // comma separated list of ids
+        'ids' => '', // comma separated list of ids
+        'order' => '',
+        'orderby' => '',
+        'meta_order_key' => ''
     ], $atts, 'get-posts' );
 
     extract( $atts );
@@ -96,8 +99,28 @@ function pma_get_posts_shortcode( $atts ) {
             $args['post__in'] = $post_ids;
         }
 
+        if( $order )
+            $args['order'] = $order;
+
+        if( $orderby )
+            $args['orderby'] = pma_get_assoc_array( $orderby, ' ', ':' );
+
         if( !isset( $args['meta_query'] ) )
             $args['meta_query'] = [];
+
+        if( $meta_order_key ) {
+            $args['meta_query'][] = [
+                'relation' => 'OR',
+                [
+                    'key' => $meta_order_key,
+                    'compare' => 'NOT EXISTS'
+                ],
+                [
+                    'key' => $meta_order_key,
+                    'compare' => 'EXISTS'
+                ]
+            ];
+        }
 
         if( $type === 'course' ) {
             if( $category_slug ) {
@@ -117,23 +140,6 @@ function pma_get_posts_shortcode( $atts ) {
                     'compare' => 'LIKE'
                 ];
             }
-
-            /*
-            // homepage meta
-            if( is_front_page() ) {
-                $args['meta_query'][] = [
-                    'key' => 'homepage',
-                    'value' => '1',
-                    'compare' => 'LIKE'
-                ];
-                
-                if( !$ignore_homepage_order ) {
-                    $args['meta_key'] = 'homepage_order';
-                    $args['orderby'] = 'meta_value_num';
-                    $args['order'] = 'ASC';
-                }
-            }
-            */
         }
 
         // general meta
@@ -165,7 +171,7 @@ function pma_get_posts_shortcode( $atts ) {
             $args = array_replace_recursive( $args, $query_args );
         }   
 
-        error_log( print_r( $args, true ) );
+        // error_log( print_r( $args, true ) );
 
         $q = new WP_Query( $args );
     } else {

@@ -85,15 +85,19 @@ function pma_check_wp_query_vars( $q, $prop, $val ) {
 
 /* String to associative array */
 
-function pma_get_assoc_array( $str ) {
+function pma_get_assoc_array( $str, $index = "\n", $sep = ' : ' ) {
     if( !$str )
         return [];
 
-    $arr = explode( "\n", $str );
+    $arr = explode( $index, $str );
+
+    if( is_string( $arr ) )
+        $arr = [$str];
+
     $assoc = [];
 
     foreach( $arr as $a ) {
-        $aa = explode( ' : ', $a );
+        $aa = explode( $sep, $a );
         $assoc[$aa[0]] = $aa[1];
     }
 
