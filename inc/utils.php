@@ -98,7 +98,12 @@ function pma_get_assoc_array( $str, $index = "\n", $sep = ' : ' ) {
 
     foreach( $arr as $a ) {
         $aa = explode( $sep, $a );
-        $assoc[$aa[0]] = $aa[1];
+
+        if( isset( $aa[1] ) ) {
+            $assoc[$aa[0]] = $aa[1];
+        } else {
+            $assoc[] = $aa[0];
+        }
     }
 
     return $assoc;
