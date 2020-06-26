@@ -86,7 +86,8 @@ function pma_get_posts_shortcode( $atts ) {
     if( $q_condition ) {
         $args = [
             'post_type' => $type,
-            'posts_per_page' => $posts_per_page
+            'posts_per_page' => $posts_per_page,
+            'suppress_filters' => true
         ];
 
         if( $ids ) {
@@ -143,7 +144,7 @@ function pma_get_posts_shortcode( $atts ) {
         }
 
         // general meta
-        if( !$return_array && $meta_value && $meta_key ) {
+        if( $meta_value && $meta_key ) {
             $compare = '=';
 
             if( $meta_type == 'int-array' || $meta_type == 'string-array' )
@@ -154,16 +155,27 @@ function pma_get_posts_shortcode( $atts ) {
                 'value' => $meta_value,
                 'compare' => $compare
             ];
+        }
 
-            pma_additional_script_data( 'pma_load_posts_query_static', [
-                'meta_query' => [
-                    [
-                        'key' => $meta_key,
-                        'value' => $meta_value,
-                        'compare' => $compare
-                    ]
-                ]
-            ] ); 
+        if( !$return_array && $like_archive ) {
+            $static_args = [];
+
+            if( isset( $args['order'] ) )
+                $static_args['order'] = $args['order'];
+
+            if( isset( $args['orderby'] ) )
+                $static_args['orderby'] = $args['orderby'];
+
+            if( isset( $args['post__in'] ) )
+                $static_args['post__in'] = $args['post__in'];
+
+            if( isset( $args['tax_query'] ) )
+                $static_args['tax_query'] = $args['tax_query'];
+
+            if( $args['meta_query'] )
+                $static_args['meta_query'] = $args['meta_query'];
+
+            pma_additional_script_data( 'pma_load_posts_query_static', $static_args ); 
         }
 
         if( is_array( $query_args ) && count( $query_args ) > 0 ) {
@@ -171,7 +183,7 @@ function pma_get_posts_shortcode( $atts ) {
             $args = array_replace_recursive( $args, $query_args );
         }   
 
-        // error_log( print_r( $args, true ) );
+        error_log( print_r( $args, true ) );
 
         $q = new WP_Query( $args );
     } else {
