@@ -15,10 +15,8 @@ function pma_render_cards_h( $args = [], $content ) {
     extract( $args );
 
     return
-        "<div class='u-overflow-hidden'>" .
-            "<div class='l-flex --wrap l-pad-h-$padding l-pad-v-container --m u-fig u-b-half js-insert'>" .
-                $content .
-            "</div>" .
+        "<div class='l-flex --wrap l-pad-h-$padding l-pad-v-container --m u-fig u-b-half js-insert' data-cards-h='true'>" .
+            $content .
         "</div>";
 }
 

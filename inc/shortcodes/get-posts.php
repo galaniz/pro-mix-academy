@@ -183,7 +183,7 @@ function pma_get_posts_shortcode( $atts ) {
             $args = array_replace_recursive( $args, $query_args );
         }   
 
-        error_log( print_r( $args, true ) );
+        // error_log( print_r( $args, true ) );
 
         $q = new WP_Query( $args );
     } else {

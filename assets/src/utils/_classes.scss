@@ -253,6 +253,12 @@
             content: none;
         }
     }
+    &[data-cards-h="true"] {
+        &::after {
+            height: calc( 100% - 50px );
+            top: 25px;
+        }
+    }
 }
 
 /* Position */
