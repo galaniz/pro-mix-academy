@@ -16,6 +16,7 @@ function pma_course_meta_shortcode( $atts ) {
 	$mentors = get_field( 'mentor', $id );
 	$duration = (int) get_field( 'duration', $id );
 	$price = (int) get_field( 'price', $id );
+	$price_display = str_replace( ['<p>', '</p>'], '', get_field( 'price_display', $id ) );
 	$buy_link = get_field( 'buy_link', $id );
 	$show_rating = (bool) get_option( 'pma_course_show_rating', '' );
 
@@ -44,7 +45,7 @@ function pma_course_meta_shortcode( $atts ) {
 
 	// price meta
 	if( $price ) {
-		$price = '&dollar;' . $price;
+		$price = $price_display ? $price_display : '&dollar;' . $price;
 		$buy_now = '';
 
 		if( $buy_link ) {

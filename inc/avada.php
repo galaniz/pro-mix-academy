@@ -13,12 +13,13 @@ add_action( 'avada_after_content', function() {
 
     $id = get_the_ID();
     $price = (int) get_field( 'price', $id );
+    $price_display = str_replace( ['<p>', '</p>'], '', get_field( 'price_display', $id ) );
 	$buy_link = get_field( 'buy_link', $id );
 
     if( !$price || !$buy_link )
         return;
 
-    $price = '&dollar;' . $price;
+    $price = $price_display ? $price_display : '&dollar;' . $price;
 
     echo
         "<div class='l-pad-v-xxl u-width-100 u-overflow-hidden'>" .

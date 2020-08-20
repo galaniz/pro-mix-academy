@@ -78,7 +78,8 @@ function pma_render_table_content( $args = [] ) {
         $mentors = get_field( 'mentor', $id );
         $rating = (float) get_field( 'rating', $id );
         $price = (int) get_field( 'price', $id );
-        $price = '&dollar;' . $price;
+        $price_display = str_replace( ['<p>', '</p>'], '', get_field( 'price_display', $id ) );
+        $price = $price_display ? $price_display : '&dollar;' . $price;
 
         /* Mentors */
 
