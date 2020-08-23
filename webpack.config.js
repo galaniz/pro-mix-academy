@@ -10,7 +10,7 @@ const path = require( 'path' );
 
 let resolve = {
     alias: {
-        // Formation: path.resolve( __dirname, '../../formation/src' )
+        // Formation: path.resolve( __dirname, '../../../formation/src' )
         Formation: '@alanizcreative/formation/src'
     },
     extensions: [

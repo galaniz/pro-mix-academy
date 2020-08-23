@@ -77,6 +77,8 @@ function pma_ajax_get_posts() {
             $args = array_merge_recursive( $processed_args, $args );
         }
 
+        error_log( print_r( $args, true ) );
+
         $output = pma_get_posts_shortcode( [
             'type' => $type,
             'query_args' => $args,

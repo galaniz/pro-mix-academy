@@ -224,6 +224,14 @@ html:not(.avada-has-site-width-percent) .tfs-slider .slide-content-container {
 
 /* Contact Form 7 */
 
+.wpcf7-form {
+    & .wpcf7-text,
+    & .wpcf7-select,
+    & textarea {
+        border-radius: 5px;
+    }
+}
+
 .wpcf7-form .wpcf7-not-valid-tip {
     @extend %u-display-block;
 }

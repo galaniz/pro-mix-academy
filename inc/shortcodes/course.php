@@ -168,6 +168,64 @@ function pma_courses_filters_shortcode( $atts ) {
     $output = '';
     $load_posts_query = [];
 
+    /* Genre select */
+
+	$genre = acf_get_field( 'genre' );
+	$genre_output = '';
+
+	if( isset( $genre['choices'] ) ) {
+		$gc_id = 'pma_course_genre';
+		$genre_output = 
+			"<select class='o-select js-load-more-filter' id='$gc_id' name='$gc_id'>" .
+				"<option value='null'>Select Genre</option>";
+
+		foreach( $genre['choices'] as $gc_v => $gc_n ) {
+			$genre_output .= "<option value='$gc_v'>$gc_n</option>";
+		}
+
+		$genre_output .= "</select>";
+
+        $load_posts_query[$gc_id] = [
+            'meta_query' => [
+                [
+                    'key' => 'genre',
+                    'value' => '%value',
+                    'compare' => 'LIKE'
+                ]
+            ]
+        ];
+	}
+
+    /* DAW select */
+
+    $daw = acf_get_field( 'daw' );
+    $daw_output = '';
+
+	if( isset( $daw['choices'] ) ) {
+		$dc_id = 'pma_course_daw';
+		$daw_output = 
+			"<select class='o-select js-load-more-filter' id='$dc_id' name='$dc_id'>" .
+				"<option value='null'>Select DAW</option>";
+
+		foreach( $daw['choices'] as $dc_v => $dc_n ) {
+			$daw_output .= "<option value='$dc_v'>$dc_n</option>";
+		}
+
+		$daw_output .= "</select>";
+
+        $load_posts_query[$dc_id] = [
+            'meta_query' => [
+                [
+                    'key' => 'daw',
+                    'value' => '%value',
+                    'compare' => 'LIKE'
+                ]
+            ]
+        ];	
+    }
+
+    /* Category radio buttons */
+
     $tax = 'course_category';
 
     $cat = get_terms( [
@@ -259,6 +317,8 @@ function pma_courses_filters_shortcode( $atts ) {
                 "<div class='l-pad-v-b l-pad-v-lg-t'>" .
                     "<div class='l-pad-h-xs l-pad-v-container --md-b l-flex --align-center --wrap'>" .
                         $output .
+                        $genre_output .
+                        $daw_output .
                         '<div class="l-pad-h__item l-pad-v-md-b js-no-results" style="display:none;">' .
                             '<button class="js-no-results__button o-button o-subtext" type="button">Reset</button>' .
                         '</div>' .
