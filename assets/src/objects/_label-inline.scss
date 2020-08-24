@@ -1,0 +1,26 @@
+
+/*
+ * Label Inline
+ * ------------
+ */
+
+.o-label-inline {
+	@extend %u-position-relative;
+	padding-left: calcRem( 22px );
+	margin-bottom: -9px;
+	z-index: 1;
+	& span {
+		@extend %u-position-relative;
+	}
+	& span::before {
+		content: '';
+		@extend %u-position-absolute;
+		@extend %u-background-color-foreground-base;
+		height: calcRem( 4px );
+		transform: translateY( -50% );
+		top: 50%;
+		width: 130%;
+		left: -15%;
+		z-index: -1;
+	}
+}

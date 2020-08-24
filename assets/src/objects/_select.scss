@@ -1,0 +1,32 @@
+
+/*
+ * Select Rounded Input
+ * --------------------
+ */
+
+.o-select {
+	@extend %u-position-relative;
+	&::after {
+		@extend %u-position-absolute;
+		@extend %u-display-inline-block;
+		@extend %u-position-vertical-center;
+		right: calcRem( 20px );
+		content: "\f107";
+		font-family: "Font Awesome 5 Free"; 
+		font-weight: 900;
+		font-style: normal;
+		font-variant: normal;
+		text-rendering: auto;
+		-webkit-font-smoothing: antialiased;
+	}
+	& select {
+		@extend %u-width-100;
+		appearance: none;
+		border-radius: calcRem( 50px );
+		padding: calcRem( 10px ) calcRem( 50px ) calcRem( 10px ) calcRem( 20px );
+		font-size: calcRem( 16px ) !important;
+		height: auto !important;
+		background: none;
+		margin: 0;
+	}
+}

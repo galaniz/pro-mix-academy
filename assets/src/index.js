@@ -8,6 +8,7 @@
 
 import 'core-js/es/object/assign';
 import 'core-js/es/array/from';
+import 'core-js/es/promise';
 
 /* Functions */
 
@@ -217,6 +218,7 @@ const initialize = () => {
  			total: total,
  			filters: filters,
  			filtersLoader: filtersLoader,
+ 			filtersForm: filtersForm,
  			insertInto: document.querySelector( insertSelector )
  		};
 

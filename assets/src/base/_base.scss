@@ -10,6 +10,14 @@ body {
     letter-spacing: 0.01em;
 }
 
+*:disabled,
+*[aria-disabled="true"],
+form[data-disabled="true"] .u-field {
+    opacity: 0.5 !important;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
 a {
     .u-fade-out-links & {
         @extend %u-transition-opacity-transform-ease;

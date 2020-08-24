@@ -176,14 +176,17 @@ function pma_courses_filters_shortcode( $atts ) {
 	if( isset( $genre['choices'] ) ) {
 		$gc_id = 'pma_course_genre';
 		$genre_output = 
-			"<select class='o-select js-load-more-filter' id='$gc_id' name='$gc_id'>" .
-				"<option value='null'>Select Genre</option>";
+			"<div class='o-select'>" . 
+				"<select class='js-load-more-filter' id='$gc_id' name='$gc_id'>" .
+					"<option value='null'>Select Genre</option>";
 
 		foreach( $genre['choices'] as $gc_v => $gc_n ) {
 			$genre_output .= "<option value='$gc_v'>$gc_n</option>";
 		}
 
-		$genre_output .= "</select>";
+		$genre_output .= 
+				"</select>" .
+			"</div>";
 
         $load_posts_query[$gc_id] = [
             'meta_query' => [
@@ -204,14 +207,17 @@ function pma_courses_filters_shortcode( $atts ) {
 	if( isset( $daw['choices'] ) ) {
 		$dc_id = 'pma_course_daw';
 		$daw_output = 
-			"<select class='o-select js-load-more-filter' id='$dc_id' name='$dc_id'>" .
-				"<option value='null'>Select DAW</option>";
+			"<div class='o-select'>" . 
+				"<select class='js-load-more-filter' id='$dc_id' name='$dc_id'>" .
+					"<option value='null'>Select DAW</option>";
 
 		foreach( $daw['choices'] as $dc_v => $dc_n ) {
 			$daw_output .= "<option value='$dc_v'>$dc_n</option>";
 		}
 
-		$daw_output .= "</select>";
+		$daw_output .= 
+				"</select>" .
+			"</div>";
 
         $load_posts_query[$dc_id] = [
             'meta_query' => [
@@ -262,7 +268,7 @@ function pma_courses_filters_shortcode( $atts ) {
             $checked = $c['checked'] ? ' checked' : '';
 
             $output .=
-                "<div class='o-button-radio l-pad-h__item l-pad-v-md-b'>" .
+                "<div class='o-button-radio u-field l-pad-h__item l-pad-v-md-b'>" .
                     "<label>" .
                         "<input class='u-hide-input js-load-more-filter' type='radio' id='$id' name='pma_course_cat' value='$value'$checked>" .
                         "<div class='o-subtext o-button --outline --sm --radio'>$label</div>" .
@@ -285,29 +291,6 @@ function pma_courses_filters_shortcode( $atts ) {
         's' => '%value'
     ];
 
-    $output .=
-        "<div class='l-pad-h__item l-pad-v-md-b'>" .
-            "<button class='c-search-trigger u-color-background-light l-flex --align-center --justify-center' type='button' aria-expanded='false' aria-controls='js-search'>" .
-                "<div>" .
-                    "<div class='u-visually-hidden'>Toggle search input</div>" .
-                    "<i class='fas fa-search'></i>" .
-                    "<i class='fas fa-times'></i>" .
-                "</div>" .
-            "</button>" .
-        "</div>" .
-        "<div class='c-search u-flex-grow-1 l-pad-h__item l-pad-v-md-b' id='js-search' data-open='false'>" .
-            "<div class='u-position-relative'>" .
-                "<label for='$search_id'>" .
-                    "<span class='u-visually-hidden'>" . __( 'Search for:' ) . "</span>" .
-                "</label>" .
-                "<input class='c-search__input u-color-background-light js-load-more-filter' id='$search_id' type='search' name='pma_course_search' placeholder='Search' data-submit-selector='.c-search__submit'>" .
-                "<button class='c-search__submit u-color-background-light' type='button'>" .
-                    "<div class='u-visually-hidden'>Submit search query</div>" .
-                    "<i class='fas fa-search'></i>" .
-                "</button>" .
-            "</div>" .
-        "</div>";
-
     $output =
         "<div class='u-position-relative'>" .
             "<div class='js-load-more-filters-loader o-loader --hide'>" .
@@ -315,10 +298,43 @@ function pma_courses_filters_shortcode( $atts ) {
             "</div>" .
             "<form class='o-loader-before js-load-more-filters l-pad-v-container --b'>" .
                 "<div class='l-pad-v-b l-pad-v-lg-t'>" .
-                    "<div class='l-pad-h-xs l-pad-v-container --md-b l-flex --align-center --wrap'>" .
+                    "<div class='l-pad-v-b l-pad-h-xs l-pad-v-container --md-b l-flex --align-center --wrap'>" .
                         $output .
-                        $genre_output .
-                        $daw_output .
+                    "</div>" .
+                    "<div class='l-pad-v-b l-pad-h-xs l-pad-v-container --md-b l-flex --align-center --wrap'>" .
+                   		"<div class='l-pad-h__item u-field l-pad-v-md-b l-w-m-100'>" .
+                   			"<label>" .
+                   				'<div class="o-subtext-sm o-label-inline"><span>Genre</span></div>' .
+                   				$genre_output .
+                   			"</label>" .
+	                    "</div>" .
+	                    "<div class='l-pad-h__item u-field l-pad-v-md-b l-w-m-100'>" .
+	                    	"<label>" .
+                   				'<div class="o-subtext-sm o-label-inline"><span>DAW</span></div>' .
+                       			$daw_output .
+                       		"</label>" .
+	                    "</div>" .
+	                    "<div class='l-pad-h__item u-field l-pad-v-md-b'>" .
+				            "<button class='c-search-trigger u-color-background-light l-flex --align-center --justify-center' type='button' aria-expanded='false' aria-controls='js-search'>" .
+				                "<div>" .
+				                    "<div class='u-visually-hidden'>Toggle search input</div>" .
+				                    "<i class='fas fa-search'></i>" .
+				                    "<i class='fas fa-times'></i>" .
+				                "</div>" .
+				            "</button>" .
+				        "</div>" .
+				        "<div class='c-search u-flex-grow-1 l-pad-h__item l-pad-v-md-b' id='js-search' data-open='false'>" .
+				            "<div class='u-position-relative'>" .
+				                "<label for='$search_id'>" .
+				                    "<span class='u-visually-hidden'>" . __( 'Search for:' ) . "</span>" .
+				                "</label>" .
+				                "<input class='c-search__input u-color-background-light js-load-more-filter' id='$search_id' type='search' name='pma_course_search' placeholder='Search' data-submit-selector='.c-search__submit'>" .
+				                "<button class='c-search__submit u-color-background-light' type='button'>" .
+				                    "<div class='u-visually-hidden'>Submit search query</div>" .
+				                    "<i class='fas fa-search'></i>" .
+				                "</button>" .
+				            "</div>" .
+				        "</div>" .
                         '<div class="l-pad-h__item l-pad-v-md-b js-no-results" style="display:none;">' .
                             '<button class="js-no-results__button o-button o-subtext" type="button">Reset</button>' .
                         '</div>' .

@@ -75,6 +75,12 @@
 	}
 }
 
+.l-w-m-100 {
+	@include breakpointMax( 500 ) {
+		width: 100%;
+	}
+}
+
 .l-w-300 {
 	width: 33.33333%;
 	min-width: calcRem( 240px );
