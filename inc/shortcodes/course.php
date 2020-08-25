@@ -165,13 +165,51 @@ add_shortcode( 'course-mentors', 'pma_course_mentors_shortcode' );
 /* Courses filters */
 
 function pma_courses_filters_shortcode( $atts ) {
-    $output = '';
+	$atts = shortcode_atts( [
+		'type' => 'course'
+	], $atts, 'courses-filters' );
+
+	extract( $atts );
+
+	$output = '';
     $load_posts_query = [];
+
+    $search_id = uniqid( 'pma_search_' );
+    $load_posts_query[$search_id] = [
+        's' => '%value'
+    ];
+
+	$sections = [
+		'search' => 
+			"<div class='l-pad-h__item u-field l-pad-v-md-b'>" .
+	            "<button class='c-search-trigger u-color-background-light l-flex --align-center --justify-center' type='button' aria-expanded='false' aria-controls='js-search'>" .
+	                "<div>" .
+	                    "<div class='u-visually-hidden'>Toggle search input</div>" .
+	                    "<i class='fas fa-search'></i>" .
+	                    "<i class='fas fa-times'></i>" .
+	                "</div>" .
+	            "</button>" .
+	        "</div>" .
+	        "<div class='c-search u-flex-grow-1 l-pad-h__item l-pad-v-md-b' id='js-search' data-open='false'>" .
+	            "<div class='u-position-relative'>" .
+	                "<label for='$search_id'>" .
+	                    "<span class='u-visually-hidden'>" . __( 'Search for:' ) . "</span>" .
+	                "</label>" .
+	                "<input class='c-search__input u-color-background-light js-load-more-filter' id='$search_id' type='search' name='pma_course_search' placeholder='Search' data-submit-selector='.c-search__submit'>" .
+	                "<button class='c-search__submit u-color-background-light' type='button'>" .
+	                    "<div class='u-visually-hidden'>Submit search query</div>" .
+	                    "<i class='fas fa-search'></i>" .
+	                "</button>" .
+	            "</div>" .
+	        "</div>",
+	    'genre' => '',
+	    'daw' => '',
+	    'cat' => ''
+	];
 
     /* Genre select */
 
 	$genre = acf_get_field( 'genre' );
-	$genre_output = '';
 
 	if( isset( $genre['choices'] ) ) {
 		$gc_id = 'pma_course_genre';
@@ -197,99 +235,137 @@ function pma_courses_filters_shortcode( $atts ) {
                 ]
             ]
         ];
+
+        $sections['genre'] = 
+			"<div class='l-pad-h__item u-field l-pad-v-md-b l-w-m-100'>" .
+	   			"<label>" .
+	   				'<div class="o-subtext-sm o-label-inline"><span>Genre</span></div>' .
+	   				$genre_output .
+	   			"</label>" .
+	        "</div>";
 	}
 
-    /* DAW select */
+	// course specific filters
+	if( $type === 'course' ) {
 
-    $daw = acf_get_field( 'daw' );
-    $daw_output = '';
+		/* DAW select */
 
-	if( isset( $daw['choices'] ) ) {
-		$dc_id = 'pma_course_daw';
-		$daw_output = 
-			"<div class='o-select'>" . 
-				"<select class='js-load-more-filter' id='$dc_id' name='$dc_id'>" .
-					"<option value='null'>Select DAW</option>";
+	    $daw = acf_get_field( 'daw' );
 
-		foreach( $daw['choices'] as $dc_v => $dc_n ) {
-			$daw_output .= "<option value='$dc_v'>$dc_n</option>";
-		}
+		if( isset( $daw['choices'] ) ) {
+			$dc_id = 'pma_course_daw';
+			$daw_output = 
+				"<div class='o-select'>" . 
+					"<select class='js-load-more-filter' id='$dc_id' name='$dc_id'>" .
+						"<option value='null'>Select DAW</option>";
 
-		$daw_output .= 
-				"</select>" .
+			foreach( $daw['choices'] as $dc_v => $dc_n ) {
+				$daw_output .= "<option value='$dc_v'>$dc_n</option>";
+			}
+
+			$daw_output .= 
+					"</select>" .
+				"</div>";
+
+	        $load_posts_query[$dc_id] = [
+	            'meta_query' => [
+	                [
+	                    'key' => 'daw',
+	                    'value' => '%value',
+	                    'compare' => 'LIKE'
+	                ]
+	            ]
+	        ];	
+
+	        $sections['daw'] = 
+    		    "<div class='l-pad-h__item u-field l-pad-v-md-b l-w-m-100'>" .
+                	"<label>" .
+           				'<div class="o-subtext-sm o-label-inline"><span>DAW</span></div>' .
+               			$daw_output .
+               		"</label>" .
+                "</div>";
+	    }
+
+	    /* Category radio buttons */
+
+	    $tax = 'course_category';
+
+	    $cat = get_terms( [
+	        'taxonomy' => $tax,
+	        'hide_empty' => true
+	    ] );
+
+	    if( $cat ) {
+	        $any_checked = false;
+	        $cat_output = '';
+
+	        $cat = array_map( function( $c ) use( &$any_checked, $tax ) {
+	            $checked = is_tax( $tax, $c->term_id );
+
+	            if( $checked )
+	                $any_checked = true;
+
+	            return [
+	                'checked' => $checked,
+	                'value' => $c->term_id,
+	                'label' => $c->name
+	            ];
+	        }, $cat );
+
+	        array_unshift( $cat, [
+	            'checked' => !$any_checked ? true : false,
+	            'value' => 'null',
+	            'label' => 'All'
+	        ] );
+
+	        foreach( $cat as $c ) {
+	            $id = 'pma_course_cat_' . uniqid();
+	            $label = $c['label'];
+	            $value = $c['value'];
+	            $checked = $c['checked'] ? ' checked' : '';
+
+	            $cat_output .=
+	                "<div class='o-button-radio u-field l-pad-h__item l-pad-v-md-b'>" .
+	                    "<label>" .
+	                        "<input class='u-hide-input js-load-more-filter' type='radio' id='$id' name='pma_course_cat' value='$value'$checked>" .
+	                        "<div class='o-subtext o-button --outline --sm --radio'>$label</div>" .
+	                    "</label>" .
+	                "</div>";
+	        }
+
+	        $sections['cat'] = $cat_output;
+
+	        $load_posts_query['pma_course_cat'] = [
+	            'tax_query' => [
+	                [
+	                    'taxonomy' => $tax,
+	                    'terms' => '%value:int'
+	                ]
+	            ]
+	        ];
+	    }
+	}
+
+	if( $sections['cat'] )
+		$output .= 
+			"<div class='l-pad-v-b l-pad-h-xs l-pad-v-container --md-b l-flex --align-center --wrap'>" .
+				$sections['cat'] .
 			"</div>";
 
-        $load_posts_query[$dc_id] = [
-            'meta_query' => [
-                [
-                    'key' => 'daw',
-                    'value' => '%value',
-                    'compare' => 'LIKE'
-                ]
-            ]
-        ];	
-    }
+	$output .= "<div class='l-pad-v-b l-pad-h-xs l-pad-v-container --md-b l-flex --align-center --wrap'>";
 
-    /* Category radio buttons */
+	if( $sections['genre'] )
+		$output .= $sections['genre'];
 
-    $tax = 'course_category';
-
-    $cat = get_terms( [
-        'taxonomy' => $tax,
-        'hide_empty' => true
-    ] );
-
-    if( $cat ) {
-        $any_checked = false;
-
-        $cat = array_map( function( $c ) use( &$any_checked, $tax ) {
-            $checked = is_tax( $tax, $c->term_id );
-
-            if( $checked )
-                $any_checked = true;
-
-            return [
-                'checked' => $checked,
-                'value' => $c->term_id,
-                'label' => $c->name
-            ];
-        }, $cat );
-
-        array_unshift( $cat, [
-            'checked' => !$any_checked ? true : false,
-            'value' => 'null',
-            'label' => 'All'
-        ] );
-
-        foreach( $cat as $c ) {
-            $id = 'pma_course_cat_' . uniqid();
-            $label = $c['label'];
-            $value = $c['value'];
-            $checked = $c['checked'] ? ' checked' : '';
-
-            $output .=
-                "<div class='o-button-radio u-field l-pad-h__item l-pad-v-md-b'>" .
-                    "<label>" .
-                        "<input class='u-hide-input js-load-more-filter' type='radio' id='$id' name='pma_course_cat' value='$value'$checked>" .
-                        "<div class='o-subtext o-button --outline --sm --radio'>$label</div>" .
-                    "</label>" .
-                "</div>";
-        }
-
-        $load_posts_query['pma_course_cat'] = [
-            'tax_query' => [
-                [
-                    'taxonomy' => $tax,
-                    'terms' => '%value:int'
-                ]
-            ]
-        ];
-    }
-
-    $search_id = uniqid( 'pma_search_' );
-    $load_posts_query[$search_id] = [
-        's' => '%value'
-    ];
+	if( $sections['daw'] )
+		$output .= $sections['daw'];
+                   		
+	$output .=   
+			$sections['search'] .
+	        '<div class="l-pad-h__item l-pad-v-md-b js-no-results" style="display:none;">' .
+	            '<button class="js-no-results__button o-button o-subtext" type="button">Reset</button>' .
+	        '</div>' .
+	    "</div>";
 
     $output =
         "<div class='u-position-relative'>" .
@@ -298,47 +374,7 @@ function pma_courses_filters_shortcode( $atts ) {
             "</div>" .
             "<form class='o-loader-before js-load-more-filters l-pad-v-container --b'>" .
                 "<div class='l-pad-v-b l-pad-v-lg-t'>" .
-                    "<div class='l-pad-v-b l-pad-h-xs l-pad-v-container --md-b l-flex --align-center --wrap'>" .
-                        $output .
-                    "</div>" .
-                    "<div class='l-pad-v-b l-pad-h-xs l-pad-v-container --md-b l-flex --align-center --wrap'>" .
-                   		"<div class='l-pad-h__item u-field l-pad-v-md-b l-w-m-100'>" .
-                   			"<label>" .
-                   				'<div class="o-subtext-sm o-label-inline"><span>Genre</span></div>' .
-                   				$genre_output .
-                   			"</label>" .
-	                    "</div>" .
-	                    "<div class='l-pad-h__item u-field l-pad-v-md-b l-w-m-100'>" .
-	                    	"<label>" .
-                   				'<div class="o-subtext-sm o-label-inline"><span>DAW</span></div>' .
-                       			$daw_output .
-                       		"</label>" .
-	                    "</div>" .
-	                    "<div class='l-pad-h__item u-field l-pad-v-md-b'>" .
-				            "<button class='c-search-trigger u-color-background-light l-flex --align-center --justify-center' type='button' aria-expanded='false' aria-controls='js-search'>" .
-				                "<div>" .
-				                    "<div class='u-visually-hidden'>Toggle search input</div>" .
-				                    "<i class='fas fa-search'></i>" .
-				                    "<i class='fas fa-times'></i>" .
-				                "</div>" .
-				            "</button>" .
-				        "</div>" .
-				        "<div class='c-search u-flex-grow-1 l-pad-h__item l-pad-v-md-b' id='js-search' data-open='false'>" .
-				            "<div class='u-position-relative'>" .
-				                "<label for='$search_id'>" .
-				                    "<span class='u-visually-hidden'>" . __( 'Search for:' ) . "</span>" .
-				                "</label>" .
-				                "<input class='c-search__input u-color-background-light js-load-more-filter' id='$search_id' type='search' name='pma_course_search' placeholder='Search' data-submit-selector='.c-search__submit'>" .
-				                "<button class='c-search__submit u-color-background-light' type='button'>" .
-				                    "<div class='u-visually-hidden'>Submit search query</div>" .
-				                    "<i class='fas fa-search'></i>" .
-				                "</button>" .
-				            "</div>" .
-				        "</div>" .
-                        '<div class="l-pad-h__item l-pad-v-md-b js-no-results" style="display:none;">' .
-                            '<button class="js-no-results__button o-button o-subtext" type="button">Reset</button>' .
-                        '</div>' .
-                    "</div>" .
+                    $output .
                 "</div>" .
             "</form>" .
         "</div>";
