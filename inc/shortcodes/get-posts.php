@@ -64,7 +64,7 @@ function pma_get_posts_shortcode( $atts ) {
     /* Layout */
 
     if( !$layout ) {
-        if( $type === 'course' )
+        if( $type === 'course' || $type === 'hit_the_road_music' )
             $layout = 'cards_v';
 
         if( $type === 'mentor' )
@@ -133,7 +133,9 @@ function pma_get_posts_shortcode( $atts ) {
                     ]
                 ];
             }
+        }
 
+        if( $type === 'course' || $type === 'hit_the_road_music' ) {
             if( $mentor_id ) {
                 $args['meta_query'][] = [
                     'key' => 'mentor',
@@ -227,7 +229,7 @@ function pma_get_posts_shortcode( $atts ) {
             if( $layout === 'table' ) {
                 $labels = [];
 
-                if( $type === 'course' )
+                if( $type === 'course' || $type === 'hit_the_road_music' )
                     $labels = [
                         [
                             'value' => 'Image',
@@ -311,7 +313,7 @@ function pma_get_posts_shortcode( $atts ) {
                     '<div class="js-no-results l-pad-v-t u-p-0" style="display:none;">' .
                         '<p>Sorry looks like nothing was found.</p>' .
                     '</div>' .
-                    "<div class='l-pad-v-x" . ( $layout === 'cards_h' ? 'x' : '' ) . "l-t u-text-align-center u-position-relative" . ( $type === 'course' ? ' u-b-top' : '' ) . "'$hide_load_more>" .
+                    "<div class='l-pad-v-x" . ( $layout === 'cards_h' ? 'x' : '' ) . "l-t u-text-align-center u-position-relative" . ( $type === 'course' || $type === 'hit_the_road_music' ? ' u-b-top' : '' ) . "'$hide_load_more>" .
                         "<$tag class='o-button js-load-more u-color-background-light'$href data-type='$type'" . ( $ajax_ppp ? " data-ajax-posts-per-page='$ajax_ppp'" : '' ) . " data-posts-per-page='$ppp' data-total='$total' data-insert-selector='.js-insert'>" .
                             "<div class='o-subtext u-height-100 l-flex --align-center'>" .
                                 __( 'Load More' ) .

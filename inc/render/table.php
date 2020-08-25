@@ -74,7 +74,7 @@ function pma_render_table_content( $args = [] ) {
 
     /* Course specific cells */
 
-    if( $type === 'course' ) {
+    if( $type === 'course' || $type === 'hit_the_road_music' ) {
         $mentors = get_field( 'mentor', $id );
         $rating = (float) get_field( 'rating', $id );
         $price = (int) get_field( 'price', $id );

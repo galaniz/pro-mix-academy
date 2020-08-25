@@ -59,6 +59,14 @@ function pma_admin_setup() {
             'name' => 'pma_course_ppp_ajax'
         ],
         [
+            'title' => 'Hit The Road Music page shows at most',
+            'name' => 'pma_hit_the_road_music_ppp'
+        ],
+        [
+            'title' => 'Hit The Road Music page loads at most (ajax)',
+            'name' => 'pma_hit_the_road_music_ppp_ajax'
+        ],
+        [
             'title' => 'Mentor page shows at most',
             'name' => 'pma_mentor_ppp'
         ],

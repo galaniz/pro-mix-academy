@@ -81,7 +81,7 @@ function pma_ajax_get_posts() {
             'type' => $type,
             'query_args' => $args,
             'return_array' => 'true',
-            'layout' => $type === 'course' ? 'table' : ''
+            'layout' => ( $type === 'course' || $type === 'hit_the_road_music' ) ? 'table' : ''
         ] );
 
         echo json_encode( $output );
