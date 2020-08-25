@@ -348,11 +348,15 @@ function pma_courses_filters_shortcode( $atts ) {
 
 	if( $sections['cat'] )
 		$output .= 
-			"<div class='l-pad-v-b l-pad-h-xs l-pad-v-container --md-b l-flex --align-center --wrap'>" .
-				$sections['cat'] .
+			"<div class='l-pad-v-b'>" .
+				"<div class='l-pad-h-xs l-pad-v-container --md-b l-flex --align-center --wrap'>" .
+					$sections['cat'] .
+				"</div>" .
 			"</div>";
 
-	$output .= "<div class='l-pad-v-b l-pad-h-xs l-pad-v-container --md-b l-flex --align-center --wrap'>";
+	$output .= 
+		"<div class='l-pad-v-b'>" .
+			"<div class='l-pad-h-xs l-pad-v-container --md-b l-flex --align-center --wrap'>";
 
 	if( $sections['genre'] )
 		$output .= $sections['genre'];
@@ -365,15 +369,16 @@ function pma_courses_filters_shortcode( $atts ) {
 	        '<div class="l-pad-h__item l-pad-v-md-b js-no-results" style="display:none;">' .
 	            '<button class="js-no-results__button o-button o-subtext" type="button">Reset</button>' .
 	        '</div>' .
-	    "</div>";
+	    "</div>" .   
+	"</div>";
 
     $output =
         "<div class='u-position-relative'>" .
             "<div class='js-load-more-filters-loader o-loader --hide'>" .
                 "<div class='o-loader__icon'></div>" .
             "</div>" .
-            "<form class='o-loader-before js-load-more-filters l-pad-v-container --b'>" .
-                "<div class='l-pad-v-b l-pad-v-lg-t'>" .
+            "<form class='o-loader-before js-load-more-filters'>" .
+                "<div class='l-pad-v-container --b l-pad-v-lg-t'>" .
                     $output .
                 "</div>" .
             "</form>" .
