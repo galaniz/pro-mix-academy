@@ -8,7 +8,7 @@
 /* Add price and buy now links after course */
 
 add_action( 'avada_after_content', function() {
-    if( !is_singular( 'course' ) || !is_singular( 'hit_the_road_music' ) )
+    if( !is_singular( 'course' ) && !is_singular( 'hit_the_road_music' ) )
         return;
 
     $id = get_the_ID();

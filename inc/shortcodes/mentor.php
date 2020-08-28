@@ -76,7 +76,7 @@ function pma_mentor_shortcode( $atts ) {
             $content .
         "</div>";
 
-    $courses = do_shortcode( '[get-posts type="course" posts_per_page="3" mentor_id="' . $id . '" ]' );
+    $courses = do_shortcode( '[get-posts type="course" posts_per_page="-1" mentor_id="' . $id . '" ]' );
 
     if( $courses ) {
         $output .=
